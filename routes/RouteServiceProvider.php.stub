@@ -7,7 +7,8 @@ use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvi
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Facades\Route;
-
+use Jmhc\Admin\Routing\ResourceRegistrar;
+use Illuminate\Routing\ResourceRegistrar as LaravelResourceRegistrar;
 class RouteServiceProvider extends ServiceProvider
 {
     /**
@@ -39,8 +40,8 @@ class RouteServiceProvider extends ServiceProvider
     {
         $this->configureRateLimiting();
 
-        $registrar = new \Jmhc\Admin\Routing\ResourceRegistrar($this->app['router']);
-        $this->app->bind(\Illuminate\Routing\ResourceRegistrar::class, function() use ($registrar) {
+        $registrar = new ResourceRegistrar($this->app['router']);
+        $this->app->bind(LaravelResourceRegistrar::class, function() use ($registrar) {
             return $registrar;
         });
 
@@ -54,8 +55,6 @@ class RouteServiceProvider extends ServiceProvider
         });
     }
 
-
-
     /**
      * @return void
      */
@@ -64,21 +63,12 @@ class RouteServiceProvider extends ServiceProvider
         $apiRoutes = Route::prefix('admin')
             ->middleware('api')
             ->namespace($this->namespace);
-        //获取指定目录下的所有文件并根据文件创建路由组
         array_map(function ($file) use ($apiRoutes) {
             $apiRoutes->group($file);
         }, self::getFilesArray(base_path('routes/admin')));
     }
 
-    protected function mapWebRoutes()
-    {
-        $webRoutes = Route::middleware('web')
-            ->namespace($this->namespace);
-            //获取指定目录下的所有文件并根据文件创建路由组
-        array_map(function ($file) use ($webRoutes) {
-            $webRoutes->group($file);
-        }, self::getFilesArray(base_path('routes/web')));
-    }
+
 
    /**
     * @return void
@@ -92,6 +82,19 @@ class RouteServiceProvider extends ServiceProvider
         array_map(function ($file) use ($apiRoutes) {
             $apiRoutes->group($file);
         }, self::getFilesArray(base_path('routes/api')));
+    }
+
+    /**
+     * @return void
+     */
+    protected function mapWebRoutes()
+    {
+        $webRoutes = Route::middleware('web')
+            ->namespace($this->namespace);
+            //获取指定目录下的所有文件并根据文件创建路由组
+        array_map(function ($file) use ($webRoutes) {
+            $webRoutes->group($file);
+        }, self::getFilesArray(base_path('routes/web')));
     }
 
     /**
