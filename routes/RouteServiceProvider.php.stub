@@ -7,8 +7,7 @@ use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvi
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Facades\Route;
-use Jmhc\Admin\Routing\ResourceRegistrar;
-use Illuminate\Routing\ResourceRegistrar as LaravelResourceRegistrar;
+
 class RouteServiceProvider extends ServiceProvider
 {
     /**
@@ -40,81 +39,27 @@ class RouteServiceProvider extends ServiceProvider
     {
         $this->configureRateLimiting();
 
-        $registrar = new ResourceRegistrar($this->app['router']);
-        $this->app->bind(LaravelResourceRegistrar::class, function() use ($registrar) {
+        $registrar = new \Jmhc\Admin\Routing\ResourceRegistrar($this->app['router']);
+        $this->app->bind(\Illuminate\Routing\ResourceRegistrar::class, function() use ($registrar) {
             return $registrar;
         });
 
         $this->routes(function () {
-            //api
-            $this->mapApiRoutes();
-            //web
-            $this->mapWebRoutes();
-            //admin
-            $this->mapAdminRoutes();
+            Route::prefix('api')
+                ->middleware('api')
+                ->namespace($this->apiNamespace)
+                ->group(base_path('routes/api.php'));
+
+            Route::middleware('web')
+                ->namespace($this->namespace)
+                ->group(base_path('routes/web.php'));
+
+            Route::prefix('admin')
+                ->middleware('api')
+                ->namespace($this->adminNamespace)
+                ->group(base_path('routes/admin.php'));
         });
-    }
 
-    /**
-     * @return void
-     */
-    protected function mapAdminRoutes()
-    {
-        $apiRoutes = Route::prefix('admin')
-            ->middleware('api')
-            ->namespace($this->namespace);
-        array_map(function ($file) use ($apiRoutes) {
-            $apiRoutes->group($file);
-        }, self::getFilesArray(base_path('routes/admin')));
-    }
-
-   /**
-    * @return void
-    */
-    protected function mapApiRoutes()
-    {
-        $apiRoutes = Route::prefix('api')
-            ->middleware('api')
-            ->namespace($this->namespace);
-        array_map(function ($file) use ($apiRoutes) {
-            $apiRoutes->group($file);
-        }, self::getFilesArray(base_path('routes/api')));
-    }
-
-    /**
-     * @return void
-     */
-    protected function mapWebRoutes()
-    {
-        $webRoutes = Route::middleware('web')
-            ->namespace($this->namespace);
-        array_map(function ($file) use ($webRoutes) {
-            $webRoutes->group($file);
-        }, self::getFilesArray(base_path('routes/web')));
-    }
-
-    /**
-     * @param         $searchDir
-     * @param  array  $files
-     * @return array
-     */
-    private static function getFilesArray($searchDir, array &$files = []): array
-    {
-        $handle = opendir($searchDir);
-        while ($file = readdir($handle)) {
-            if ($file !== '..' && $file !== '.') {
-                $f = $searchDir . '/' . $file;
-                if (is_file($f)) {
-                    $extension = isset(pathinfo($file)['extension']) ? pathinfo($file)['extension'] : '';
-                    if ($extension === 'php' || $extension === 'PHP') {
-                        $files[] = $f;
-                    }
-                } else {
-                    self::getFilesArray($f, $files);
-                }
-            }
-        }
-        return $files;
     }
 
     /**
