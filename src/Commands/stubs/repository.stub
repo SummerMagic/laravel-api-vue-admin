@@ -1,0 +1,14 @@
+<?php
+
+namespace {%namespace%};
+
+use Jmhc\Admin\Repository;
+
+class {%name%}Repository extends Repository
+{
+    // 允许查出的字段
+    protected $allowFields = {%allowFields%};
+
+    // 排序字段
+    protected $orderField  = {%orderField%};
+}

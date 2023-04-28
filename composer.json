@@ -1,0 +1,36 @@
+{
+    "name": "meilunzhi/laravel-vue-admin",
+    "description": "laravel-vue-admin",
+    "type": "library",
+    "license": "Apache-2.0",
+    "authors": [
+        {
+            "name": "meilunzhi",
+            "email": "meilunzhi@163.com"
+        }
+    ],
+    "minimum-stability": "stable",
+    "require": {
+        "php": "^7.4|^8.0",
+        "league/fractal": "^0.19.2",
+        "tymon/jwt-auth": "^1.0",
+        "laravel/framework": "^8.65",
+        "spatie/laravel-permission": "^3.11"
+    },
+    "autoload": {
+        "psr-4": {
+            "Jmhc\\Admin\\": "src/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Jmhc\\Admin\\AdminServiceProvider",
+                "Jmhc\\Admin\\UEditorProvider"
+            ],
+            "aliases": {
+                "Service": "Jmhc\\Admin\\"
+            }
+        }
+    }
+}

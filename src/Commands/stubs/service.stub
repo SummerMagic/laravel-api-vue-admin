@@ -1,0 +1,26 @@
+<?php
+
+
+namespace {%namespace%};
+
+
+use Jmhc\Admin\Service;
+
+class {%name%}Service extends Service
+{
+    protected $multiFields = {%multiFields%};
+
+{%attr%}
+
+    protected function rules($data, $id): array
+    {
+        return {%rule%};
+    }
+
+    protected function message(): array
+    {
+        return {%message%};
+    }
+
+{%function%}
+}

@@ -1,0 +1,13 @@
+<?php
+
+
+namespace {%namespace%};
+
+use Illuminate\Routing\Controller;
+use Jmhc\Admin\Traits\HasResourceRoutes;
+
+class {%name%}Controller extends Controller
+{
+    use HasResourceRoutes;
+
+}
