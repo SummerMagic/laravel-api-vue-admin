@@ -23,7 +23,7 @@ class ServiceCommand extends Command
      *
      * @var string
      */
-    protected $description = '一键生成控制器、模型、服务、仓储类';
+    protected $description = '一键生成控制器-模型-服务-仓储类';
 
     protected $fileSystem;
 
@@ -58,7 +58,7 @@ class ServiceCommand extends Command
         $moduleName = $this->option('module');
         $force = $this->option('force'); //是否强制
         $view = $this->option('view'); // 是否生成视图
-        if (!$modelName) {
+        if ( ! $modelName) {
             $this->error('缺少模型名称');
             return false;
         }
@@ -77,16 +77,16 @@ class ServiceCommand extends Command
         $servicePath = $this->appPath(config('admin.service_prefix'), $moduleName, $prefix);
         $repositoryPath = $this->appPath(config('admin.repository_prefix'), $moduleName, $prefix);
 
-        if (!$this->fileSystem->exists($controllerPath)) {
+        if ( ! $this->fileSystem->exists($controllerPath)) {
             $this->fileSystem->makeDirectory($controllerPath, 0755, true);
         }
-        if (!$this->fileSystem->exists($modelPath)) {
+        if ( ! $this->fileSystem->exists($modelPath)) {
             $this->fileSystem->makeDirectory($modelPath, 0755, true);
         }
-        if (!$this->fileSystem->exists($servicePath)) {
+        if ( ! $this->fileSystem->exists($servicePath)) {
             $this->fileSystem->makeDirectory($servicePath, 0755, true);
         }
-        if (!$this->fileSystem->exists($repositoryPath)) {
+        if ( ! $this->fileSystem->exists($repositoryPath)) {
             $this->fileSystem->makeDirectory($repositoryPath, 0755, true);
         }
 
@@ -100,13 +100,15 @@ class ServiceCommand extends Command
         $controllerNamespace = str_replace('{:moduleName}', $moduleName, $controllerNamespace);
         //控制器模板
         $controllerStub = str_replace([
-            '{%namespace%}', '{%name%}'
+            '{%namespace%}',
+            '{%name%}'
         ], [
-            $controllerNamespace, $modelName
+            $controllerNamespace,
+            $modelName
         ], $this->getStub('controller'));
 
         $controllerFilePath = $controllerPath . '/' . $modelName . 'Controller.php';
-        if ($this->fileSystem->exists($controllerFilePath) && !$force) {
+        if ($this->fileSystem->exists($controllerFilePath) && ! $force) {
             $this->error('controller已存在，如需覆盖请加上--force参数');
             return false;
         }
@@ -119,12 +121,24 @@ class ServiceCommand extends Command
         $rule = Helper::convertArray($parsedTable['rule'], "\r\n", 2);
         $message = Helper::convertArray($parsedTable['message'], "\r\n", 2);
         $serviceStub = str_replace([
-            '{%namespace%}', '{%name%}', '{%multiFields%}', '{%rule%}', '{%message%}', '{%attr%}', '{%function%}'
+            '{%namespace%}',
+            '{%name%}',
+            '{%multiFields%}',
+            '{%rule%}',
+            '{%message%}',
+            '{%attr%}',
+            '{%function%}'
         ], [
-            $serviceNamespace, $modelName, $multiFields, $rule, $message, $selectOptions['serviceAttr'], $selectOptions['serviceAttrFunc']
+            $serviceNamespace,
+            $modelName,
+            $multiFields,
+            $rule,
+            $message,
+            $selectOptions['serviceAttr'],
+            $selectOptions['serviceAttrFunc']
         ], $this->getStub('service'));
         $serviceFilePath = $servicePath . '/' . $modelName . 'Service.php';
-        if ($this->fileSystem->exists($serviceFilePath) && !$force) {
+        if ($this->fileSystem->exists($serviceFilePath) && ! $force) {
             $this->error('service已存在，如需覆盖请加上--force参数');
             return false;
         }
@@ -134,16 +148,22 @@ class ServiceCommand extends Command
         //仓储模板
         $repositoryNamespace = config('admin.repository_prefix') . ($prefix ? "\\" . $prefix : '');
         $allowFields = array_keys($parsedTable['fieldInfo']);
-        $allowFieldStr =  Helper::convertArray($allowFields);
+        $allowFieldStr = Helper::convertArray($allowFields);
 
         $orderField = $parsedTable['sortField'] ? "'{$parsedTable['sortField']}'" : "'created_at'";
         $repositoryStub = str_replace([
-            '{%namespace%}', '{%name%}', '{%allowFields%}', '{%orderField%}'
+            '{%namespace%}',
+            '{%name%}',
+            '{%allowFields%}',
+            '{%orderField%}'
         ], [
-            $repositoryNamespace, $modelName, $allowFieldStr, $orderField
+            $repositoryNamespace,
+            $modelName,
+            $allowFieldStr,
+            $orderField
         ], $this->getStub('repository'));
         $repositoryFilePath = $repositoryPath . '/' . $modelName . 'Repository.php';
-        if ($this->fileSystem->exists($repositoryFilePath) && !$force) {
+        if ($this->fileSystem->exists($repositoryFilePath) && ! $force) {
             $this->error('repository已存在，如需覆盖请加上--force参数');
             return false;
         }
@@ -152,17 +172,33 @@ class ServiceCommand extends Command
 
         //模型模板
         $modelNamespace = config('admin.model_prefix') . ($prefix ? "\\" . $prefix : '');
-        $fillable = Helper::convertArray(array_values(array_filter($allowFields, function($field){
-            return !in_array($field, ['id', 'created_at', 'updated_at']);
-        })));
+        $fillable = Helper::convertArray(
+            array_values(
+                array_filter($allowFields, function ($field) {
+                    return ! in_array($field, ['id', 'created_at', 'updated_at']);
+                })
+            )
+        );
         $serviceClass = $serviceNamespace . "\\" . $modelName . 'Service';
         $modelStub = str_replace([
-            '{%namespace%}', '{%service%}', '{%name%}', '{%table%}', '{%fillable%}', '{%append%}', '{%function%}'
+            '{%namespace%}',
+            '{%service%}',
+            '{%name%}',
+            '{%table%}',
+            '{%fillable%}',
+            '{%append%}',
+            '{%function%}'
         ], [
-            $modelNamespace, $serviceClass, $modelName, "'$table'", $fillable, $selectOptions['modelAppendAttr'], $selectOptions['modelAppendAttrFunc']
+            $modelNamespace,
+            $serviceClass,
+            $modelName,
+            "'$table'",
+            $fillable,
+            $selectOptions['modelAppendAttr'],
+            $selectOptions['modelAppendAttrFunc']
         ], $this->getStub('model'));
         $modelFilePath = $modelPath . '/' . $modelName . '.php';
-        if ($this->fileSystem->exists($modelFilePath) && !$force){
+        if ($this->fileSystem->exists($modelFilePath) && ! $force) {
             $this->error('model已存在，如需覆盖请加上--force参数');
             return false;
         }
@@ -208,8 +244,7 @@ class ServiceCommand extends Command
      */
     protected function getStub($type)
     {
-
-        switch($type) {
+        switch ($type) {
             case 'controller':
                 $path = __DIR__ . '/stubs/controller.stub';
                 break;
@@ -226,7 +261,6 @@ class ServiceCommand extends Command
                 $path = '';
         }
         return $this->fileSystem->get($path);
-
     }
 
     /**
@@ -239,8 +273,12 @@ class ServiceCommand extends Command
         $routeName = Str::plural(Helper::convertToLower($modelName, '-'));
         $controllerPath = $prefix ? str_replace('/', "\\", $prefix) . "\\" : '';
         $data = "\r\n// " . $modelName;
-        $data .= "\r\n" . sprintf("Route::resource('%s', '%s%s');", $routeName,
-            $controllerPath, $modelName . 'Controller');
+        $data .= "\r\n" . sprintf(
+                "Route::resource('%s', '%s%s');",
+                $routeName,
+                $controllerPath,
+                $modelName . 'Controller'
+            );
         $this->fileSystem->append($this->routePath, $data);
     }
 
@@ -251,15 +289,15 @@ class ServiceCommand extends Command
     private function makeSelectStr($fieldInfo)
     {
         $options = [
-            'modelAppendAttr' => '',
+            'modelAppendAttr'     => '',
             'modelAppendAttrFunc' => [],
-            'serviceAttr' => [],
-            'serviceAttrFunc' => []
+            'serviceAttr'         => [],
+            'serviceAttrFunc'     => []
         ];
 
         $appendAttr = [];
-        foreach ($fieldInfo as $field => $item){
-            if (!empty($item['selectList'])) {
+        foreach ($fieldInfo as $field => $item) {
+            if ( ! empty($item['selectList'])) {
                 $appendAttr[] = $field . '_text';
 
                 $field = Helper::convertToUpper($field);
@@ -284,10 +322,10 @@ class ServiceCommand extends Command
     {
         $tableParsedResult = [
             'multiFields' => [],
-            'rule' => [],
-            'message' => [],
-            'sortField' => "",
-            'fieldInfo' => []
+            'rule'        => [],
+            'message'     => [],
+            'sortField'   => "",
+            'fieldInfo'   => []
         ];
         foreach ($tableInfo as $item) {
             foreach ($this->multiFieldsPrefix as $v) {
@@ -296,7 +334,7 @@ class ServiceCommand extends Command
                 }
             }
             $parsedResult = $this->parseColumn($item);
-            if ($item->COLUMN_NAME !== 'id' && !empty($parsedResult['rule'])) {
+            if ($item->COLUMN_NAME !== 'id' && ! empty($parsedResult['rule'])) {
                 $tableParsedResult['rule'][$item->COLUMN_NAME] = $parsedResult['rule'];
                 $tableParsedResult['message'] = array_merge($tableParsedResult['message'], $parsedResult['message']);
                 if ($parsedResult['is_order_field']) {
@@ -305,11 +343,11 @@ class ServiceCommand extends Command
             }
 
             $tableParsedResult['fieldInfo'][$item->COLUMN_NAME] = [
-                'field' => $parsedResult['field'],
-                'title' => $parsedResult['title'],
-                'type' => $parsedResult['type'],
+                'field'      => $parsedResult['field'],
+                'title'      => $parsedResult['title'],
+                'type'       => $parsedResult['type'],
                 'selectList' => $parsedResult['selectList'],
-                'rule' => $parsedResult['rule'],
+                'rule'       => $parsedResult['rule'],
             ];
         }
         return $tableParsedResult;
@@ -323,12 +361,12 @@ class ServiceCommand extends Command
     private function parseColumn($columnInfo)
     {
         $column = [
-            'field' => $columnInfo->COLUMN_NAME,
-            'rule' => [],
-            'message' => [],
-            'title' => $columnInfo->COLUMN_COMMENT,
-            'selectList' => [],
-            'type' => 'text',
+            'field'          => $columnInfo->COLUMN_NAME,
+            'rule'           => [],
+            'message'        => [],
+            'title'          => $columnInfo->COLUMN_COMMENT,
+            'selectList'     => [],
+            'type'           => 'text',
             'is_order_field' => $columnInfo->COLUMN_NAME === 'weigh',
         ];
 
@@ -340,15 +378,15 @@ class ServiceCommand extends Command
                 $column['rule'][] = 'numeric';
                 $column['message'][$columnInfo->COLUMN_NAME . '.numeric'] = $columnInfo->COLUMN_COMMENT . '必须为一个数字';
                 $column['type'] = 'number';
-                if ($columnInfo->DATA_TYPE === 'tinyint'){
+                if ($columnInfo->DATA_TYPE === 'tinyint') {
                     if (strpos($columnInfo->COLUMN_COMMENT, ':')) {
                         $column['type'] = 'select';
                         $arr = explode(':', $columnInfo->COLUMN_COMMENT);
                         $column['title'] = $arr[0];
-                        if (isset($arr[1]) && $arr[1]){
+                        if (isset($arr[1]) && $arr[1]) {
                             $listStr = explode(',', $arr[1]);
                             $selectList = [];
-                            foreach ($listStr as $valueStr){
+                            foreach ($listStr as $valueStr) {
                                 $listItem = explode('=', $valueStr);
                                 if (count($listItem) === 2) {
                                     $selectList[$listItem[0]] = $listItem[1];
@@ -362,7 +400,6 @@ class ServiceCommand extends Command
                             }
                             $column['selectList'] = $selectList;
                         }
-
                     }
                 }
                 break;
@@ -390,7 +427,7 @@ class ServiceCommand extends Command
             default:
                 $column['type'] = 'text';
         }
-        if (is_null($columnInfo->COLUMN_DEFAULT) && !in_array($columnInfo->DATA_TYPE, ['text', 'json', 'timestamp'])) {
+        if (is_null($columnInfo->COLUMN_DEFAULT) && ! in_array($columnInfo->DATA_TYPE, ['text', 'json', 'timestamp'])) {
             array_unshift($column['rule'], 'required');
             $column['message'][$columnInfo->COLUMN_NAME . '.required'] = $column['title'] . '不能为空';
         }
@@ -418,7 +455,6 @@ class ServiceCommand extends Command
         return <<<EOF
     protected \${$attrName}Map = {$content};
 EOF;
-
     }
 
     /**
@@ -435,7 +471,6 @@ EOF;
         return isset(\$this->{$attrName}Map[\$value]) ? \$this->{$attrName}Map[\$value] : '无';
     }
 EOF;
-
     }
 
     /**

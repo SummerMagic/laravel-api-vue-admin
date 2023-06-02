@@ -38,6 +38,5 @@ class ResetAdmin extends Command
         } else {
             $this->info('该账号不存在');
         }
-
     }
 }
