@@ -394,7 +394,7 @@ ALTER TABLE `app_admin_log`
 --
 -- 使用表AUTO_INCREMENT `admin_users`
 --
-ALTER TABLE `app_dmin_users`
+ALTER TABLE `app_admin_users`
   MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
