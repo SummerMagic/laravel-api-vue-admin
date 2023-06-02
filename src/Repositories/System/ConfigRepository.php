@@ -1,11 +1,11 @@
 <?php
 
 
-namespace Jmhc\Admin\Repositories\System;
+namespace Cameron\Admin\Repositories\System;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Cache;
-use Jmhc\Admin\Repository;
+use Cameron\Admin\Repository;
 
 class ConfigRepository extends Repository
 {

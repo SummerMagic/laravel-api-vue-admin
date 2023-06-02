@@ -1,7 +1,7 @@
 <?php
 
 
-namespace Jmhc\Admin\Models;
+namespace Cameron\Admin\Models;
 
 
 use Illuminate\Database\Eloquent\Model;

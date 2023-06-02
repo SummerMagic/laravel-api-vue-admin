@@ -1,10 +1,10 @@
 <?php
 
 
-namespace Jmhc\Admin\Services\Auth;
+namespace Cameron\Admin\Services\Auth;
 
-use Jmhc\Admin\Repositories\Auth\RoleRepository;
-use Jmhc\Admin\Service;
+use Cameron\Admin\Repositories\Auth\RoleRepository;
+use Cameron\Admin\Service;
 use Illuminate\Validation\Rule;
 use Spatie\Permission\Models\Role;
 
@@ -15,13 +15,25 @@ class AdminUserService extends Service
     {
         $required = is_null($id);
         $rule = [
-            'username' => ['bail', Rule::requiredIf($required), 'string', 'max:15', 'min:4',
-                'regex:/[a-zA-Z0-9_\-@\.]+$/'],
-            'name' => ['bail', Rule::requiredIf($required), 'max:15'],
-            'password' => ['bail', Rule::requiredIf($required), 'confirmed'
+            'username' => [
+                'bail',
+                Rule::requiredIf($required),
+                'string',
+                'max:15',
+                'min:4',
+                'regex:/[a-zA-Z0-9_\-@\.]+$/'
+            ],
+            'name'     => ['bail', Rule::requiredIf($required), 'max:15'],
+            'password' => [
+                'bail',
+                Rule::requiredIf($required),
+                'confirmed'
 //                , 'regex:/^.*(?=.{6,})(?=.*\d)(?=.*[a-zA-Z])(?=.*[!@#$%^\.&*\?]).*$/'],
-            , 'min:6', 'max:12'],
-            'avatar' => ['bail', 'string', 'max:128'],
+                ,
+                'min:6',
+                'max:12'
+            ],
+            'avatar'   => ['bail', 'string', 'max:128'],
         ];
         if (is_null($id)) {
             $rule['username'][] = 'unique:admin_users';
@@ -34,18 +46,18 @@ class AdminUserService extends Service
     protected function message(): array
     {
         return [
-            'username.required' => '用户名不能为空',
-            'username.max' => '用户名不能超过15个字符',
-            'username.regex' => '用户名只能为数字字母或者_-@.符号',
-            'username.unique' => '用户名已存在',
-            'username.min' => '用户名至少4位',
-            'name.required' => '姓名不能为空',
-            'name.max' => '姓名最大长度为15个字符',
-            'password.required' => '密码不能为空',
-            'password.min' => '密码至少为6位字符',
-            'password.max' => '密码不能超过12位字符',
+            'username.required'  => '用户名不能为空',
+            'username.max'       => '用户名不能超过15个字符',
+            'username.regex'     => '用户名只能为数字字母或者_-@.符号',
+            'username.unique'    => '用户名已存在',
+            'username.min'       => '用户名至少4位',
+            'name.required'      => '姓名不能为空',
+            'name.max'           => '姓名最大长度为15个字符',
+            'password.required'  => '密码不能为空',
+            'password.min'       => '密码至少为6位字符',
+            'password.max'       => '密码不能超过12位字符',
             'password.confirmed' => '确认密码不正确',
-            'password.regex' => '密码至少6位，至少包含一个数字、一个字母和一个特殊字符（!@#$%^&*?.）',
+            'password.regex'     => '密码至少6位，至少包含一个数字、一个字母和一个特殊字符（!@#$%^&*?.）',
         ];
     }
 
@@ -74,7 +86,7 @@ class AdminUserService extends Service
     {
         $adminId = $this->request->input('admin_id');
         $roleIds = $this->request->input('role_ids');
-        if (!is_array($roleIds)){
+        if ( ! is_array($roleIds)) {
             return $this->response->error('角色格式不正确');
         }
 //        if (empty($roleIds)) {
@@ -102,10 +114,10 @@ class AdminUserService extends Service
     public function updateSelf()
     {
         $data = $this->request->input();
-        if (isset($data['password']) && !$data['password']) {
+        if (isset($data['password']) && ! $data['password']) {
             unset($data['password']);
         }
-        if (!$this->validate($data, $this->user()->id)) {
+        if ( ! $this->validate($data, $this->user()->id)) {
             return $this->response->error($this->errorMsg);
         }
         if ($this->user()->fill($data)->save()) {
@@ -117,18 +129,18 @@ class AdminUserService extends Service
 
     /**
      * 保存前置方法
-     * @param array $data
+     * @param  array  $data
      * @return array
      */
     protected function beforeStore(array $data): array
     {
-        $data['avatar'] = isset($data['avatar']) && !empty($data['avatar']) ? $data['avatar'] : '';
+        $data['avatar'] = isset($data['avatar']) && ! empty($data['avatar']) ? $data['avatar'] : '';
         return $data;
     }
 
     /**
      * 删除前置方法
-     * @param int $id
+     * @param  int  $id
      * @return bool
      */
     protected function beforeDestroy(int $id): bool

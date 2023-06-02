@@ -1,8 +1,8 @@
 <?php
 
-namespace Jmhc\Admin\Repositories\System;
+namespace Cameron\Admin\Repositories\System;
 
-use Jmhc\Admin\Repository;
+use Cameron\Admin\Repository;
 
 class AdminLogRepository extends Repository
 {

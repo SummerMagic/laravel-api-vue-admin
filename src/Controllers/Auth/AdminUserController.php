@@ -1,11 +1,11 @@
 <?php
 
 
-namespace Jmhc\Admin\Controllers\Auth;
+namespace Cameron\Admin\Controllers\Auth;
 
 use Illuminate\Routing\Controller;
-use Jmhc\Admin\Contracts\Service;
-use Jmhc\Admin\Traits\HasResourceRoutes;
+use Cameron\Admin\Contracts\Service;
+use Cameron\Admin\Traits\HasResourceRoutes;
 
 class AdminUserController extends Controller
 {

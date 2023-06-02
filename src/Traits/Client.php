@@ -1,10 +1,10 @@
 <?php
 
 
-namespace Jmhc\Admin\Traits;
+namespace Cameron\Admin\Traits;
 
 
-use Jmhc\Admin\Exceptions\HttpRequestClientException;
+use Cameron\Admin\Exceptions\HttpRequestClientException;
 use Illuminate\Support\Facades\Log;
 
 trait Client

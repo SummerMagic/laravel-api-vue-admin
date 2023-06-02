@@ -1,12 +1,12 @@
 <?php
 
 
-namespace Jmhc\Admin\Services\Auth;
+namespace Cameron\Admin\Services\Auth;
 
 
-use Jmhc\Admin\Models\Auth\AdminUser;
-use Jmhc\Admin\Service;
-use Jmhc\Admin\Utils\Helper;
+use Cameron\Admin\Models\Auth\AdminUser;
+use Cameron\Admin\Service;
+use Cameron\Admin\Utils\Helper;
 use Illuminate\Support\Facades\DB;
 use Spatie\Permission\Models\Role;
 
@@ -15,7 +15,7 @@ class RoleService extends Service
     protected function rules($data, $id): array
     {
         return [
-            'name' => ['bail', 'required', 'string', 'max:255'],
+            'name'      => ['bail', 'required', 'string', 'max:255'],
             'parent_id' => ['bail', 'required', 'integer'],
         ];
     }
@@ -23,10 +23,10 @@ class RoleService extends Service
     protected function message(): array
     {
         return [
-            'name.required' => '请输入角色名称',
-            'name.max' => '角色名称不能超过255个字符',
+            'name.required'      => '请输入角色名称',
+            'name.max'           => '角色名称不能超过255个字符',
             'parent_id.required' => '请选择父级',
-            'parent_id.integer' => '父级格式不正确',
+            'parent_id.integer'  => '父级格式不正确',
         ];
     }
 
@@ -56,7 +56,7 @@ class RoleService extends Service
     {
         $roleId = $this->request->input('role_id');
         $permissionIds = $this->request->input('permission_ids');
-        if (!is_array($permissionIds)) {
+        if ( ! is_array($permissionIds)) {
             return $this->response->error('权限请求参数格式不正确');
         }
         $roleId = intval($roleId);
@@ -93,16 +93,15 @@ class RoleService extends Service
             $allRole = $this->repository->getUserAllRoles($this->user()->id);
         }
         if ($this->request->has('is_select')) {
-            $allRole = array_map(function($item) {
+            $allRole = array_map(function ($item) {
                 return [
-                    'id' => $item['id'],
+                    'id'        => $item['id'],
                     'parent_id' => $item['parent_id'],
-                    'name' => $item['name'],
+                    'name'      => $item['name'],
                 ];
             }, $allRole);
         }
         return Helper::array2Tree($allRole, 'parent_id', $allRole[0]['parent_id'], false);
-
     }
 
     /**
@@ -112,7 +111,7 @@ class RoleService extends Service
     {
         $formData = $this->request->all();
         $formData = $this->beforeStore($formData);
-        if (!$this->validate($formData)) {
+        if ( ! $this->validate($formData)) {
             return $this->response->error($this->errorMsg);
         }
         $exists = $this->repository->where('guard_name', $this->guardName())
@@ -138,11 +137,11 @@ class RoleService extends Service
         if ($id == 1) {
             return $this->response->error('此角色不允许修改');
         }
-        if ($this->user()->hasRole($id) && !$this->user()->hasRole('admin')) {
+        if ($this->user()->hasRole($id) && ! $this->user()->hasRole('admin')) {
             return $this->response->error('您不能修改该角色');
         }
         $formData = $this->request->except($this->exceptAttributes);
-        if (!$this->validate($formData, $id)) {
+        if ( ! $this->validate($formData, $id)) {
             return $this->response->error($this->errorMsg);
         }
         $exists = $this->repository->where('guard_name', $this->guardName())
@@ -161,7 +160,7 @@ class RoleService extends Service
 
     /**
      * 删除前置方法
-     * @param int $id
+     * @param  int  $id
      * @return bool
      */
     protected function beforeDestroy(int $id): bool
@@ -171,7 +170,7 @@ class RoleService extends Service
             $this->errorMsg = '该角色不能删除';
             return false;
         }
-        if ($this->user()->hasRole($id) && !$this->user()->hasRole('admin')) {
+        if ($this->user()->hasRole($id) && ! $this->user()->hasRole('admin')) {
             $this->setError('您不能删除该角色');
             return false;
         }

@@ -1,17 +1,17 @@
 <?php
 
-namespace Jmhc\Admin\Models\System;
+namespace Cameron\Admin\Models\System;
 
 use Illuminate\Database\Eloquent\Model;
-use Jmhc\Admin\Services\System\AdminLogService;
-use Jmhc\Admin\Traits\SerializeDate;
+use Cameron\Admin\Services\System\AdminLogService;
+use Cameron\Admin\Traits\SerializeDate;
 
 class AdminLog extends Model
 {
 
     use SerializeDate;
 
-    protected $table = 'admin_log';
+    protected $table = 'app_admin_log';
 
     protected $fillable = [
         'admin_id',

@@ -1,13 +1,13 @@
 <?php
 
 
-namespace Jmhc\Admin\Services;
+namespace Cameron\Admin\Services;
 
 
-use Jmhc\Admin\Models\System\Attachment;
+use Cameron\Admin\Models\System\Attachment;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
-use Jmhc\Admin\Traits\HasError;
+use Cameron\Admin\Traits\HasError;
 
 class Uploader
 {
@@ -27,7 +27,7 @@ class Uploader
 
     public function upload($files)
     {
-        if (!$files) {
+        if ( ! $files) {
             $this->setError('请上传文件');
             return false;
         }
@@ -74,13 +74,13 @@ class Uploader
             } else {
                 $url = '';
             }
-            if (!isset($this->config['save_to_table']) || $this->config['save_to_table'] === true) {
+            if ( ! isset($this->config['save_to_table']) || $this->config['save_to_table'] === true) {
                 $this->saveFileInfo($file, $filename);
             }
             return [
-                'url' => $url,
+                'url'      => $url,
                 'filename' => $filename,
-                'name' => $file->getClientOriginalName(),
+                'name'     => $file->getClientOriginalName(),
             ];
         } else {
             return [];
@@ -91,20 +91,20 @@ class Uploader
     /**
      * 文件验证
      *
-     * @param UploadedFile $file
+     * @param  UploadedFile  $file
      * @return bool|string
      */
     protected function validateFile(UploadedFile $file)
     {
-        if (!$file->isValid()) {
+        if ( ! $file->isValid()) {
             return $file->getErrorMessage();
         }
 
-        if (!$this->validateExt($file->getClientOriginalExtension())) {
+        if ( ! $this->validateExt($file->getClientOriginalExtension())) {
             return '文件格式错误';
         }
 
-        if (!$this->validateSize($file->getSize())) {
+        if ( ! $this->validateSize($file->getSize())) {
             return '文件大小超限';
         }
         return true;
@@ -136,21 +136,21 @@ class Uploader
     /**
      * 保存附件信息
      *
-     * @param UploadedFile $file
-     * @param $filename
-     * @param $userType
-     * @param $adminId
+     * @param  UploadedFile  $file
+     * @param                $filename
+     * @param                $userType
+     * @param                $adminId
      * @return mixed
      */
     protected function saveFileInfo(UploadedFile $file, $filename)
     {
         $data = [
-            'album_id' => intval(request()->input('album_id')),
-            'name' => $file->getClientOriginalName(),
-            'admin_id' => auth('admin')->id(),
-            'path' => $filename,
+            'album_id'  => intval(request()->input('album_id')),
+            'name'      => $file->getClientOriginalName(),
+            'admin_id'  => auth('admin')->id(),
+            'path'      => $filename,
             'mime_type' => $file->getMimeType(),
-            'size' => $file->getSize(),
+            'size'      => $file->getSize(),
         ];
 
         return Attachment::create($data);

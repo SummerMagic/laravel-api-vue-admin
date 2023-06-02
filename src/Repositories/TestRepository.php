@@ -1,10 +1,10 @@
 <?php
 
 
-namespace Jmhc\Admin\Repositories;
+namespace Cameron\Admin\Repositories;
 
 
-use Jmhc\Admin\Repository;
+use Cameron\Admin\Repository;
 
 class TestRepository extends Repository
 {

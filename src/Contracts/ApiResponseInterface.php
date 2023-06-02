@@ -1,10 +1,10 @@
 <?php
 
 
-namespace Jmhc\Admin\Contracts;
+namespace Cameron\Admin\Contracts;
 
 
-use Jmhc\Admin\Response\Result;
+use Cameron\Admin\Response\Result;
 use Illuminate\Contracts\Pagination\Paginator;
 use Illuminate\Support\Collection;
 use Illuminate\Database\Eloquent\Model;

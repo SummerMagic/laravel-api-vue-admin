@@ -1,12 +1,12 @@
 <?php
 
 
-namespace Jmhc\Admin\Middleware;
+namespace Cameron\Admin\Middleware;
 
 
 use Closure;
 use Illuminate\Support\Facades\Route;
-use Jmhc\Admin\Models\System\AdminLog;
+use Cameron\Admin\Models\System\AdminLog;
 use Spatie\Permission\Models\Permission;
 
 class LogOperation

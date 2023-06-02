@@ -1,35 +1,35 @@
 {
-    "name": "frey/laravel-vue-admin",
+    "name": "cameron/laravel-vue-admin",
     "description": "laravel-vue-admin",
     "type": "library",
     "license": "Apache-2.0",
     "authors": [
         {
-            "name": "JingFang",
-            "email": "FreyJing@163.com"
+            "name": "cameron",
+            "email": "meilunzhi@gmail.com"
         }
     ],
     "minimum-stability": "stable",
     "require": {
-        "php": "^7.4|^8.0",
-        "league/fractal": "^0.19.2",
-        "tymon/jwt-auth": "^1.0",
-        "laravel/framework": "^8.12",
-        "spatie/laravel-permission": "^3.11"
+        "php": "^8.0|^8.1",
+        "league/fractal": "^0.20.1",
+        "tymon/jwt-auth": "^2.0",
+        "laravel/framework": "^9.52.7",
+        "spatie/laravel-permission": "^5.10.1"
     },
     "autoload": {
         "psr-4": {
-            "Jmhc\\Admin\\": "src/"
+            "Cameron\\Admin\\": "src/"
         }
     },
     "extra": {
         "laravel": {
             "providers": [
-                "Jmhc\\Admin\\AdminServiceProvider",
-                "Jmhc\\Admin\\UEditorProvider"
+                "Cameron\\Admin\\AdminServiceProvider",
+                "Cameron\\Admin\\UEditorProvider"
             ],
             "aliases": {
-                "Service": "Jmhc\\Admin\\"
+                "Service": "Cameron\\Admin\\"
             }
         }
     }

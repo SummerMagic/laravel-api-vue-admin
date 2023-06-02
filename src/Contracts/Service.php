@@ -1,7 +1,7 @@
 <?php
 
 
-namespace Jmhc\Admin\Contracts;
+namespace Cameron\Admin\Contracts;
 
 
 interface Service

@@ -1,10 +1,10 @@
 <?php
 
 
-namespace Jmhc\Admin\Services;
+namespace Cameron\Admin\Services;
 
 
-use Jmhc\Admin\Service;
+use Cameron\Admin\Service;
 
 class TestService extends Service
 {

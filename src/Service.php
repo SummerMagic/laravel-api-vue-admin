@@ -1,18 +1,18 @@
 <?php
 
 
-namespace Jmhc\Admin;
+namespace Cameron\Admin;
 
 
-use Jmhc\Admin\Factories\ServiceBindFactory;
-use Jmhc\Admin\Traits\HasMultiDestroy;
-use Jmhc\Admin\Traits\HasMultiEdit;
-use Jmhc\Admin\Traits\HasResourceActions;
-use Jmhc\Admin\Traits\HasValidate;
+use Cameron\Admin\Factories\ServiceBindFactory;
+use Cameron\Admin\Traits\HasMultiDestroy;
+use Cameron\Admin\Traits\HasMultiEdit;
+use Cameron\Admin\Traits\HasResourceActions;
+use Cameron\Admin\Traits\HasValidate;
 use Illuminate\Contracts\Routing\ResponseFactory;
 use Illuminate\Support\Facades\Validator;
 use League\Fractal\TransformerAbstract;
-use Jmhc\Admin\Contracts\Service as ServiceInterface;
+use Cameron\Admin\Contracts\Service as ServiceInterface;
 
 abstract class Service implements ServiceInterface
 {
@@ -44,12 +44,11 @@ abstract class Service implements ServiceInterface
         $this->repository = $repository;
         $this->request = request();
         $this->response = response();
-
     }
 
     /**
      * 设置转换实例
-     * @param TransformerAbstract $transformer
+     * @param  TransformerAbstract  $transformer
      */
     public function setTransformer(TransformerAbstract $transformer)
     {
@@ -59,7 +58,7 @@ abstract class Service implements ServiceInterface
 
     /**
      * 设置验证请求实例
-     * @param Validator $validator
+     * @param  Validator  $validator
      */
     public function setValidator(Validator $validator)
     {
@@ -79,7 +78,7 @@ abstract class Service implements ServiceInterface
 
     /**
      * 获取错误信息
-     * @param string $errMsg
+     * @param  string  $errMsg
      */
     public function setError(string $errMsg)
     {
@@ -88,7 +87,7 @@ abstract class Service implements ServiceInterface
 
     /**
      * 获取服务实例
-     * @return \Jmhc\Admin\Contracts\Service|static:class
+     * @return \Cameron\Admin\Contracts\Service|static:class
      * @throws \Exception
      */
     public static function instance()
@@ -101,7 +100,7 @@ abstract class Service implements ServiceInterface
 
     public function guardName()
     {
-        if (!$this->guardName) {
+        if ( ! $this->guardName) {
             $this->guardName = auth()->getDefaultDriver();
         }
         return $this->guardName;

@@ -1,10 +1,10 @@
 <?php
 
 
-namespace Jmhc\Admin\UEditor;
+namespace Cameron\Admin\UEditor;
 
 
-use Jmhc\Admin\Models\System\Attachment;
+use Cameron\Admin\Models\System\Attachment;
 use Illuminate\Http\Request;
 
 class UEditor
@@ -18,20 +18,25 @@ class UEditor
         error_reporting(E_ERROR);
         header("Content-Type: text/html; charset=utf-8");
         $configPath = __DIR__ . '/config.json';
-        if(file_exists(resource_path('ueditor/config.json'))) {
+        if (file_exists(resource_path('ueditor/config.json'))) {
             $configPath = resource_path('ueditor/config.json');
         }
         $this->config = json_decode(
-            preg_replace("/\/\*[\s\S]+?\*\//", "", file_get_contents($configPath)
-            ), true);
+            preg_replace(
+                "/\/\*[\s\S]+?\*\//",
+                "",
+                file_get_contents($configPath)
+            ),
+            true
+        );
         $this->request = $request;
     }
 
     public function handle()
     {
-        if (!$this->request->has('action')) {
+        if ( ! $this->request->has('action')) {
             return json_encode([
-                'state'=> '缺少参数'
+                'state' => '缺少参数'
             ]);
         }
         $action = $this->request->query('action');
@@ -45,7 +50,7 @@ class UEditor
                 return htmlspecialchars($callback) . '(' . $result . ')';
             } else {
                 return json_encode([
-                    'state'=> 'callback参数不合法'
+                    'state' => 'callback参数不合法'
                 ]);
             }
         } else {
@@ -55,14 +60,14 @@ class UEditor
 
     /**
      * 获取处理结果
-     * @param string $action
+     * @param  string  $action
      * @return array
      */
     protected function getResult(string $action): array
     {
         switch ($action) {
             case 'config':
-                $result =  $this->config;
+                $result = $this->config;
                 break;
 
             /* 上传图片 */
@@ -94,7 +99,7 @@ class UEditor
 
             default:
                 $result = [
-                    'state'=> '请求地址出错'
+                    'state' => '请求地址出错'
                 ];
                 break;
         }
@@ -113,7 +118,7 @@ class UEditor
             case 'uploadimage':
                 $config = [
                     "pathFormat" => $this->config['imagePathFormat'],
-                    "maxSize" => $this->config['imageMaxSize'],
+                    "maxSize"    => $this->config['imageMaxSize'],
                     "allowFiles" => $this->config['imageAllowFiles']
                 ];
                 $fieldName = $this->config['imageFieldName'];
@@ -122,9 +127,9 @@ class UEditor
             case 'uploadscrawl':
                 $config = [
                     "pathFormat" => $this->config['scrawlPathFormat'],
-                    "maxSize" => $this->config['scrawlMaxSize'],
+                    "maxSize"    => $this->config['scrawlMaxSize'],
                     "allowFiles" => $this->config['scrawlAllowFiles'],
-                    "oriName" => "scrawl.png"
+                    "oriName"    => "scrawl.png"
                 ];
                 $fieldName = $this->config['scrawlFieldName'];
                 $base64 = "base64";
@@ -133,7 +138,7 @@ class UEditor
             case 'uploadvideo':
                 $config = [
                     "pathFormat" => $this->config['videoPathFormat'],
-                    "maxSize" => $this->config['videoMaxSize'],
+                    "maxSize"    => $this->config['videoMaxSize'],
                     "allowFiles" => $this->config['videoAllowFiles']
                 ];
                 $fieldName = $this->config['videoFieldName'];
@@ -143,7 +148,7 @@ class UEditor
             default:
                 $config = [
                     "pathFormat" => $this->config['filePathFormat'],
-                    "maxSize" => $this->config['fileMaxSize'],
+                    "maxSize"    => $this->config['fileMaxSize'],
                     "allowFiles" => $this->config['fileAllowFiles']
                 ];
                 $fieldName = $this->config['fileFieldName'];
@@ -182,12 +187,12 @@ class UEditor
         $end = $start + $size;
 
         /* 获取文件列表 */
-        $path = $_SERVER['DOCUMENT_ROOT'] . (substr($path, 0, 1) == "/" ? "":"/") . $path;
+        $path = $_SERVER['DOCUMENT_ROOT'] . (substr($path, 0, 1) == "/" ? "" : "/") . $path;
         $files = $this->getFiles($path, $allowFiles);
-        if (!count($files)) {
+        if ( ! count($files)) {
             return [
                 "state" => "no match file",
-                "list" => [],
+                "list"  => [],
                 "start" => $start,
                 "total" => count($files)
             ];
@@ -195,7 +200,7 @@ class UEditor
 
         /* 获取指定范围的列表 */
         $len = count($files);
-        for ($i = min($end, $len) - 1, $list = []; $i < $len && $i >= 0 && $i >= $start; $i--){
+        for ($i = min($end, $len) - 1, $list = []; $i < $len && $i >= 0 && $i >= $start; $i--) {
             $list[] = $files[$i];
         }
         //倒序
@@ -206,11 +211,10 @@ class UEditor
         /* 返回数据 */
         return [
             "state" => "SUCCESS",
-            "list" => $list,
+            "list"  => $list,
             "start" => $start,
             "total" => count($files)
         ];
-
     }
 
     /**
@@ -225,9 +229,9 @@ class UEditor
         /* 上传配置 */
         $config = [
             "pathFormat" => $this->config['catcherPathFormat'],
-            "maxSize" => $this->config['catcherMaxSize'],
+            "maxSize"    => $this->config['catcherMaxSize'],
             "allowFiles" => $this->config['catcherAllowFiles'],
-            "oriName" => "remote.png"
+            "oriName"    => "remote.png"
         ];
         $fieldName = $this->config['catcherFieldName'];
 
@@ -238,32 +242,36 @@ class UEditor
             $item = new Uploader($imgUrl, $config, "remote");
             $info = $item->getFileInfo();
             array_push($list, [
-                "state" => $info["state"],
-                "url" => $info["url"],
-                "size" => $info["size"],
-                "title" => htmlspecialchars($info["title"]),
+                "state"    => $info["state"],
+                "url"      => $info["url"],
+                "size"     => $info["size"],
+                "title"    => htmlspecialchars($info["title"]),
                 "original" => htmlspecialchars($info["original"]),
-                "source" => htmlspecialchars($imgUrl)
+                "source"   => htmlspecialchars($imgUrl)
             ]);
         }
 
         /* 返回抓取数据 */
         return [
-            'state'=> count($list) ? 'SUCCESS':'ERROR',
-            'list'=> $list
+            'state' => count($list) ? 'SUCCESS' : 'ERROR',
+            'list'  => $list
         ];
     }
 
     /**
      * 遍历获取目录下的指定类型的文件
-     * @param $path
-     * @param array $files
+     * @param         $path
+     * @param  array  $files
      * @return array
      */
     private function getFiles($path, $allowFiles, &$files = array())
     {
-        if (!is_dir($path)) return null;
-        if(substr($path, strlen($path) - 1) != '/') $path .= '/';
+        if ( ! is_dir($path)) {
+            return null;
+        }
+        if (substr($path, strlen($path) - 1) != '/') {
+            $path .= '/';
+        }
         $handle = opendir($path);
         while (false !== ($file = readdir($handle))) {
             if ($file != '.' && $file != '..') {
@@ -271,10 +279,10 @@ class UEditor
                 if (is_dir($path2)) {
                     $this->getFiles($path2, $allowFiles, $files);
                 } else {
-                    if (preg_match("/\.(".$allowFiles.")$/i", $file)) {
+                    if (preg_match("/\.(" . $allowFiles . ")$/i", $file)) {
                         $files[] = array(
-                            'url'=> asset(substr($path2, strlen($_SERVER['DOCUMENT_ROOT']))),
-                            'mtime'=> filemtime($path2)
+                            'url'   => asset(substr($path2, strlen($_SERVER['DOCUMENT_ROOT']))),
+                            'mtime' => filemtime($path2)
                         );
                     }
                 }
@@ -291,12 +299,12 @@ class UEditor
     private function storeFileInfo($fileInfo)
     {
         $attachment = [
-            'album_id' => 0,
-            'name' => $fileInfo['original'],
-            'admin_id' => auth()->id() ?: 0,
-            'path' => $fileInfo['url'],
+            'album_id'  => 0,
+            'name'      => $fileInfo['original'],
+            'admin_id'  => auth()->id() ?: 0,
+            'path'      => $fileInfo['url'],
             'mime_type' => $fileInfo['mime_type'],
-            'size' => $fileInfo['size'],
+            'size'      => $fileInfo['size'],
         ];
         return Attachment::create($attachment);
     }

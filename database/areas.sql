@@ -24,7 +24,7 @@ SET time_zone = "+00:00";
 -- 表的结构 `areas`
 --
 
-CREATE TABLE `areas` (
+CREATE TABLE `app_areas` (
   `id` int NOT NULL COMMENT 'ID',
   `pid` int DEFAULT NULL COMMENT '父id',
   `shortname` varchar(100) DEFAULT NULL COMMENT '简称',
@@ -43,7 +43,7 @@ CREATE TABLE `areas` (
 -- 转存表中的数据 `areas`
 --
 
-INSERT INTO `areas` (`id`, `pid`, `shortname`, `name`, `mergename`, `level`, `pinyin`, `code`, `zip`, `first`, `lng`, `lat`) VALUES
+INSERT INTO `app_areas` (`id`, `pid`, `shortname`, `name`, `mergename`, `level`, `pinyin`, `code`, `zip`, `first`, `lng`, `lat`) VALUES
 (1, 0, '北京', '北京', '中国,北京', 1, 'beijing', '', '', 'B', '116.405285', '39.904989'),
 (2, 1, '北京', '北京市', '中国,北京,北京市', 2, 'beijing', '010', '100000', 'B', '116.405285', '39.904989'),
 (3, 2, '东城', '东城区', '中国,北京,北京市,东城区', 3, 'dongcheng', '010', '100010', 'D', '116.41005', '39.93157'),
@@ -3809,7 +3809,7 @@ INSERT INTO `areas` (`id`, `pid`, `shortname`, `name`, `mergename`, `level`, `pi
 --
 -- 表的索引 `areas`
 --
-ALTER TABLE `areas`
+ALTER TABLE `app_areas`
   ADD PRIMARY KEY (`id`) USING BTREE,
   ADD KEY `pid` (`pid`) USING BTREE;
 
@@ -3820,7 +3820,7 @@ ALTER TABLE `areas`
 --
 -- 使用表AUTO_INCREMENT `areas`
 --
-ALTER TABLE `areas`
+ALTER TABLE `app_areas`
   MODIFY `id` int NOT NULL AUTO_INCREMENT COMMENT 'ID', AUTO_INCREMENT=3752;
 COMMIT;
 

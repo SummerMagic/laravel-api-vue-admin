@@ -1,7 +1,7 @@
 <?php
 
 
-namespace Jmhc\Admin\Middleware;
+namespace Cameron\Admin\Middleware;
 
 use Closure;
 use Illuminate\Routing\ResponseFactory;

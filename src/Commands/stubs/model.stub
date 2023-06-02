@@ -3,7 +3,7 @@
 namespace {%namespace%};
 
 use Illuminate\Database\Eloquent\Model;
-use Jmhc\Admin\Traits\SerializeDate;
+use Cameron\Admin\Traits\SerializeDate;
 use {%service%};
 
 class {%name%} extends Model

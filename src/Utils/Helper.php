@@ -1,16 +1,16 @@
 <?php
 
 
-namespace Jmhc\Admin\Utils;
+namespace Cameron\Admin\Utils;
 
 
 class Helper
 {
     /**
      * 数组转换成树结构
-     * @param array $data 数据源
-     * @param int $parentId 父级ID
-     * @param string $parentName 父级字段名称
+     * @param  array   $data        数据源
+     * @param  int     $parentId    父级ID
+     * @param  string  $parentName  父级字段名称
      * @return array
      */
     public static function array2Tree(array $data, string $parentName = 'pid', int $parentId = 0, bool $isReturnEmpty = true): array
@@ -20,7 +20,7 @@ class Helper
             if ($item[$parentName] == $parentId) {
                 $children = self::array2Tree($data, $parentName, $item['id'], $isReturnEmpty);
                 // 当不返回空值并且children为空的时候不返回
-                if (! $isReturnEmpty && empty($children)) {
+                if ( ! $isReturnEmpty && empty($children)) {
                     $arr[] = $item;
                     continue;
                 }
@@ -48,7 +48,7 @@ class Helper
      */
     public static function convertToUpper($str)
     {
-        $str = preg_replace_callback('/_+([a-z])/',function($matches){
+        $str = preg_replace_callback('/_+([a-z])/', function ($matches) {
             return strtoupper($matches[1]);
         }, $str);
         return $str;
@@ -66,10 +66,10 @@ class Helper
 
     /**
      * 将数组转换成字符串形式
-     * @param $arr
-     * @param string $prefix
-     * @param int $timesSpace
-     * @param bool $first
+     * @param          $arr
+     * @param  string  $prefix
+     * @param  int     $timesSpace
+     * @param  bool    $first
      * @return string
      */
     public static function convertArray($arr, $prefix = "\r\n", $timesSpace = 1, $first = true)
@@ -78,7 +78,7 @@ class Helper
             return '[]';
         }
         $space = "";
-        for ($i = 1; $i <= $timesSpace; $i ++) {
+        for ($i = 1; $i <= $timesSpace; $i++) {
             $space .= "    ";
         }
         $itemStr = '';
@@ -89,9 +89,8 @@ class Helper
         }
         foreach ($arr as $key => $value) {
             $itemStr .= $prefix . "        " . ($first ? '' : "    ");
-            if (! $isIndexArr){
+            if ( ! $isIndexArr) {
                 $itemStr .= "    '" . $key . "' => ";
-
             }
             if (is_array($value)) {
                 $itemStr .= self::convertArray($value, $prefix . "    ", $timesSpace + 1, false);
@@ -116,14 +115,17 @@ class Helper
         if (is_string($ids)) {
             $ids = explode(',', $ids);
         }
-        if (!is_array($ids)) {
+        if ( ! is_array($ids)) {
             return [];
         }
-        $ids = array_filter(array_map(function($id) {
-            return intval($id);
-        }, $ids), function($id) {
-            return !empty($id);
-        });
+        $ids = array_filter(
+            array_map(function ($id) {
+                return intval($id);
+            }, $ids),
+            function ($id) {
+                return ! empty($id);
+            }
+        );
         return $ids;
     }
 }

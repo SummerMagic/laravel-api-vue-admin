@@ -1,11 +1,11 @@
 <?php
 
 
-namespace Jmhc\Admin\Services\Auth;
+namespace Cameron\Admin\Services\Auth;
 
 use Illuminate\Database\Eloquent\Model;
-use Jmhc\Admin\Service;
-use Jmhc\Admin\Utils\Helper;
+use Cameron\Admin\Service;
+use Cameron\Admin\Utils\Helper;
 use Illuminate\Validation\Rule;
 use Spatie\Permission\Models\Role;
 
@@ -18,27 +18,27 @@ class PermissionService extends Service
     protected function rules($data, $id): array
     {
         $rules = [
-            'title' => ['bail', 'required', 'max:10'],
-            'name' => ['bail', 'required', 'string', 'max:255'],
-            'icon' => ['max:255'],
-            'guard_name' => ['bail', 'required', 'string', 'max:255'],
-            'component_path' => ['bail', 'string', 'nullable', 'max:255'],
+            'title'           => ['bail', 'required', 'max:10'],
+            'name'            => ['bail', 'required', 'string', 'max:255'],
+            'icon'            => ['max:255'],
+            'guard_name'      => ['bail', 'required', 'string', 'max:255'],
+            'component_path'  => ['bail', 'string', 'nullable', 'max:255'],
             'view_route_name' => ['bail', 'string', 'nullable', 'max:50'],
             'view_route_path' => 'max:255',
-            'redirect_path' => 'max:80',
-            'is_menu' => 'in:0,1|integer',
-            'is_hidden' => 'in:0,1|integer',
-            'weigh' => 'integer',
-            'pid' => 'integer',
+            'redirect_path'   => 'max:80',
+            'is_menu'         => 'in:0,1|integer',
+            'is_hidden'       => 'in:0,1|integer',
+            'weigh'           => 'integer',
+            'pid'             => 'integer',
         ];
 
         $unique = Rule::unique('permissions', 'name');
         if (isset($data['guard_name']) && $data['guard_name']) {
-            $unique = $unique->where(function($query) use($data){
+            $unique = $unique->where(function ($query) use ($data) {
                 $query->where('guard_name', $data['guard_name']);
             });
         }
-        if (!is_null($id)) {
+        if ( ! is_null($id)) {
             $unique->ignore($id);
         }
         $rules['name'][] = $unique;
@@ -48,26 +48,26 @@ class PermissionService extends Service
     protected function message(): array
     {
         return [
-            'title.required' => '权限标题不能为空',
-            'title.max' => '权限标题不能超过10个字',
-            'icon.max' => 'icon不能好过',
-            'name.required' => '权限名称不能为空',
-            'name.max' => '权限名称最多只能为255个字符',
-            'name.unique' => '规则已存在',
-            'view_route_path.max' => '前端路由路径不能超过255个字符',
-            'guard_name.required' => '守卫名称不能为空',
-            'guard_name.max' => '守卫名称最多只能为255个字符',
-            'component_path.max' => '组件路径不能超过255个字符',
-            'component_path.required' => '菜单组件路径不能为空',
-            'view_route_name.max' => '前端路由名称不能超过50个字符',
+            'title.required'           => '权限标题不能为空',
+            'title.max'                => '权限标题不能超过10个字',
+            'icon.max'                 => 'icon不能好过',
+            'name.required'            => '权限名称不能为空',
+            'name.max'                 => '权限名称最多只能为255个字符',
+            'name.unique'              => '规则已存在',
+            'view_route_path.max'      => '前端路由路径不能超过255个字符',
+            'guard_name.required'      => '守卫名称不能为空',
+            'guard_name.max'           => '守卫名称最多只能为255个字符',
+            'component_path.max'       => '组件路径不能超过255个字符',
+            'component_path.required'  => '菜单组件路径不能为空',
+            'view_route_name.max'      => '前端路由名称不能超过50个字符',
             'view_route_name.required' => '菜单前端路由名称不能为空',
-            'is_menu.in' => '是否是菜单值不正确',
-            'redirect_path.max' => '跳转路径不能超过80个字符',
-            'is_menu.integer' => '是否是菜单值必须为整数',
-            'is_hidden.in' => '是否隐藏值不正确',
-            'is_hidden.integer' => '是否隐藏值必须为一个整数',
-            'weigh.integer' => '权重值必须为一个整数',
-            'pid.integer' => '父级ID必须为一个整数',
+            'is_menu.in'               => '是否是菜单值不正确',
+            'redirect_path.max'        => '跳转路径不能超过80个字符',
+            'is_menu.integer'          => '是否是菜单值必须为整数',
+            'is_hidden.in'             => '是否隐藏值不正确',
+            'is_hidden.integer'        => '是否隐藏值必须为一个整数',
+            'weigh.integer'            => '权重值必须为一个整数',
+            'pid.integer'              => '父级ID必须为一个整数',
         ];
     }
 
@@ -89,10 +89,10 @@ class PermissionService extends Service
             $data = [];
             foreach ($collections as $collection) {
                 $data[] = [
-                    'id' => $collection['id'],
+                    'id'    => $collection['id'],
                     'title' => $collection['title'],
-                    'name' => $collection['name'],
-                    'pid' => $collection['pid'],
+                    'name'  => $collection['name'],
+                    'pid'   => $collection['pid'],
                 ];
             }
         } else {
@@ -114,15 +114,16 @@ class PermissionService extends Service
 
     /**
      * 添加操作后置
-     * @param Model $model
+     * @param  Model  $model
      */
     protected function afterStore(Model $model): void
     {
         $this->repository->updateCache();
     }
+
     /**
      * 更新操作后置
-     * @param Model $model
+     * @param  Model  $model
      */
     protected function afterUpdate(int $id, array $data): void
     {
@@ -131,7 +132,7 @@ class PermissionService extends Service
 
     /**
      * 删除操作后置
-     * @param Model $model
+     * @param  Model  $model
      */
     protected function afterDestroy(?int $id): void
     {
@@ -140,7 +141,7 @@ class PermissionService extends Service
 
     /**
      * 保存前置
-     * @param array $data
+     * @param  array  $data
      * @return array
      */
     protected function beforeStore(array $data): array
@@ -179,13 +180,12 @@ class PermissionService extends Service
      */
     private function filterParent(&$refData)
     {
-        foreach($refData as $key => $v) {
+        foreach ($refData as $key => $v) {
             foreach ($refData as $key1 => $v1) {
                 if ($v['pid'] == $v1['id']) {
                     array_splice($refData, $key1, 1);
                 }
             }
-
         }
     }
 
@@ -206,7 +206,7 @@ class PermissionService extends Service
             if ($item['is_menu']) {
                 $item['meta'] = [
                     'title' => $item['title'],
-                    'icon' => $item['icon'],
+                    'icon'  => $item['icon'],
                 ];
                 $allMenu[$item['id']] = $item;
             }
@@ -221,7 +221,7 @@ class PermissionService extends Service
             }
         }
         $data = [
-            'menu' => $menu,
+            'menu'       => $menu,
             'permission' => $this->getPermissions($allPermission),
         ];
 
@@ -236,19 +236,19 @@ class PermissionService extends Service
     protected function sortPermissions($left, $right)
     {
         if ($left > $right) {
-            return ;
+            return;
         }
         $i = $left;
         $j = $right;
         $povitItem = $this->allPermissions[$left];
         $povit = $this->allPermissions[$left]['weigh'];
-        while($i != $j) {
-            while($i < $j && $this->allPermissions[$j]['weigh'] <= $povit) {
-                $j --;
+        while ($i != $j) {
+            while ($i < $j && $this->allPermissions[$j]['weigh'] <= $povit) {
+                $j--;
             }
             $this->allPermissions[$i] = $this->allPermissions[$j];
-            while($i < $j && $this->allPermissions[$i]['weigh'] >= $povit) {
-                $i ++;
+            while ($i < $j && $this->allPermissions[$i]['weigh'] >= $povit) {
+                $i++;
             }
             $this->allPermissions[$j] = $this->allPermissions[$i];
         }
@@ -260,8 +260,8 @@ class PermissionService extends Service
     /**
      * 获取菜单
      *
-     * @param array $allMenu
-     * @param int $pid
+     * @param  array  $allMenu
+     * @param  int    $pid
      * @return array
      */
     protected function getTree(array $allMenu, $pid = 0)
@@ -287,7 +287,7 @@ class PermissionService extends Service
     {
         $permissions = [];
         foreach ($allPermissions as $permission) {
-            if (!$permission['is_menu']) {
+            if ( ! $permission['is_menu']) {
                 $permissions[] = $permission['name'];
             }
         }

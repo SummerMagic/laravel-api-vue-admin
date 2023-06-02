@@ -1,7 +1,7 @@
 <?php
 
 
-namespace Jmhc\Admin\Commands;
+namespace Cameron\Admin\Commands;
 
 use Illuminate\Support\Facades\DB;
 use Illuminate\Console\Command;

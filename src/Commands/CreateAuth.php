@@ -1,10 +1,10 @@
 <?php
 
 
-namespace Jmhc\Admin\Commands;
+namespace Cameron\Admin\Commands;
 
 use Illuminate\Support\Facades\DB;
-use Jmhc\Admin\Utils\Helper;
+use Cameron\Admin\Utils\Helper;
 
 class CreateAuth
 {
@@ -15,14 +15,14 @@ class CreateAuth
     protected $module = 'admin';
 
     protected $operates = [
-        'index' => '列表',
-        'show'  => '查看',
-        'update' => '更新',
-        'store'  => '添加',
-        'destroy' => '删除',
-        'multi'  => '批量更新',
+        'index'        => '列表',
+        'show'         => '查看',
+        'update'       => '更新',
+        'store'        => '添加',
+        'destroy'      => '删除',
+        'multi'        => '批量更新',
         'multiDestroy' => '批量删除',
-        'sort' => '排序',
+        'sort'         => '排序',
     ];
 
     public function __construct($prefix, $name, $module)
@@ -84,39 +84,38 @@ class CreateAuth
 
     /**
      * 创建数据并插入数据库
-     * @param $title
-     * @param $name
-     * @param $rule
-     * @param $componentPath
-     * @param $routePath
-     * @param int $isMenu
+     * @param       $title
+     * @param       $name
+     * @param       $rule
+     * @param       $componentPath
+     * @param       $routePath
+     * @param  int  $isMenu
      * @return int
      */
     private function _createData($title, $name, $rule, $componentPath, $routePath, $pid = 0, $isMenu = 1)
     {
         $data = [
-            'title' => $title,
-            'icon' => 'list',
-            'pid' => $pid,
-            'name' => $rule,
-            'component_path' => $componentPath,
+            'title'           => $title,
+            'icon'            => 'list',
+            'pid'             => $pid,
+            'name'            => $rule,
+            'component_path'  => $componentPath,
             'view_route_name' => $name,
             'view_route_path' => $routePath,
-            'redirect_path' => '',
-            'guard_name' => $this->module,
-            'is_menu' => $isMenu,
-            'is_hidden' => 0,
-            'weigh' => 100,
-            'created_at' => date('Y-m-d H:i:s'),
-            'updated_at' => date('Y-m-d H:i:s'),
+            'redirect_path'   => '',
+            'guard_name'      => $this->module,
+            'is_menu'         => $isMenu,
+            'is_hidden'       => 0,
+            'weigh'           => 100,
+            'created_at'      => date('Y-m-d H:i:s'),
+            'updated_at'      => date('Y-m-d H:i:s'),
         ];
         $permission = DB::table($this->permissionTableName)->where('name', $data['name'])->first();
-        if (!empty($permission)) {
+        if ( ! empty($permission)) {
             DB::table($this->permissionTableName)->where('id', $permission->id)->update($data);
             return $permission->id;
         } else {
             return DB::table($this->permissionTableName)->insertGetId($data);
         }
-
     }
 }

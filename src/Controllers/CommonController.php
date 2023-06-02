@@ -1,13 +1,13 @@
 <?php
 
 
-namespace Jmhc\Admin\Controllers;
+namespace Cameron\Admin\Controllers;
 
 
 use Illuminate\Routing\Controller;
 use Illuminate\Routing\ResponseFactory;
-use Jmhc\Admin\Services\Uploader;
-use Jmhc\Admin\UEditor\UEditor;
+use Cameron\Admin\Services\Uploader;
+use Cameron\Admin\UEditor\UEditor;
 use Illuminate\Support\Facades\Log;
 use Tymon\JWTAuth\Token;
 

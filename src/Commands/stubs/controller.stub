@@ -4,7 +4,7 @@
 namespace {%namespace%};
 
 use Illuminate\Routing\Controller;
-use Jmhc\Admin\Traits\HasResourceRoutes;
+use Cameron\Admin\Traits\HasResourceRoutes;
 
 class {%name%}Controller extends Controller
 {

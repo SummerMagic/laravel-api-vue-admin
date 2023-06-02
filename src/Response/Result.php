@@ -1,7 +1,7 @@
 <?php
 
 
-namespace Jmhc\Admin\Response;
+namespace Cameron\Admin\Response;
 
 
 use Illuminate\Contracts\Support\Arrayable;

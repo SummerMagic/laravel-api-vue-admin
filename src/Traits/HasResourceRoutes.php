@@ -1,10 +1,10 @@
 <?php
 
 
-namespace Jmhc\Admin\Traits;
+namespace Cameron\Admin\Traits;
 
 
-use Jmhc\Admin\Contracts\Service;
+use Cameron\Admin\Contracts\Service;
 
 trait HasResourceRoutes
 {

@@ -18,7 +18,7 @@ SET time_zone = "+00:00";
 -- 表的结构 `admin_log`
 --
 
-CREATE TABLE `admin_log` (
+CREATE TABLE `app_admin_log` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `admin_id` int(10) UNSIGNED NOT NULL COMMENT '管理员ID',
   `name` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '姓名',
@@ -35,7 +35,7 @@ CREATE TABLE `admin_log` (
 -- 表的结构 `admin_users`
 --
 
-CREATE TABLE `admin_users` (
+CREATE TABLE `app_admin_users` (
   `id` int(10) UNSIGNED NOT NULL,
   `username` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '用户名',
   `name` varchar(15) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '姓名',
@@ -49,7 +49,7 @@ CREATE TABLE `admin_users` (
 -- 转存表中的数据 `admin_users`
 --
 
-INSERT INTO `admin_users` (`id`, `username`, `name`, `avatar`, `password`, `created_at`, `updated_at`) VALUES
+INSERT INTO `app_admin_users` (`id`, `username`, `name`, `avatar`, `password`, `created_at`, `updated_at`) VALUES
 (1, 'admin', '超级管理员', '', '$2y$10$4KWpL6/..AMiyoPwVfrMGudPH1Ud4BENlG/koHNypMEqqUQZyKkse', '2019-09-09 10:09:51', '2020-03-23 11:05:44');
 
 -- --------------------------------------------------------
@@ -58,7 +58,7 @@ INSERT INTO `admin_users` (`id`, `username`, `name`, `avatar`, `password`, `crea
 -- 表的结构 `albums`
 --
 
-CREATE TABLE `albums` (
+CREATE TABLE `app_albums` (
   `id` int(10) UNSIGNED NOT NULL,
   `name` varchar(15) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '相册名称',
   `cover_image` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '封面图',
@@ -74,7 +74,7 @@ CREATE TABLE `albums` (
 -- 表的结构 `attachments`
 --
 
-CREATE TABLE `attachments` (
+CREATE TABLE `app_attachments` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `album_id` int(10) UNSIGNED NOT NULL DEFAULT '0' COMMENT '相册ID',
   `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '' COMMENT '附件名称',
@@ -92,7 +92,7 @@ CREATE TABLE `attachments` (
 -- 表的结构 `configs`
 --
 
-CREATE TABLE `configs` (
+CREATE TABLE `app_configs` (
   `id` int(10) UNSIGNED NOT NULL,
   `group` varchar(25) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '组名称',
   `title` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '标题',
@@ -110,7 +110,7 @@ CREATE TABLE `configs` (
 -- 转存表中的数据 `configs`
 --
 
-INSERT INTO `configs` (`id`, `group`, `title`, `name`, `type`, `value`, `rule`, `extend`, `tips`, `created_at`, `updated_at`) VALUES
+INSERT INTO `app_configs` (`id`, `group`, `title`, `name`, `type`, `value`, `rule`, `extend`, `tips`, `created_at`, `updated_at`) VALUES
 (1, 'website', '站点名称', 'name', 'string', 'LaravelVueAdmin', 'required', '', '', '2020-03-16 05:36:41', '2020-06-16 00:45:17'),
 (2, 'website', 'logo', 'logo', 'image', '', 'required', '', '', '2020-03-16 06:56:22', '2020-06-16 00:44:10');
 
@@ -120,7 +120,7 @@ INSERT INTO `configs` (`id`, `group`, `title`, `name`, `type`, `value`, `rule`, 
 -- 表的结构 `dictionary`
 --
 
-CREATE TABLE `dictionary` (
+CREATE TABLE `app_dictionary` (
   `id` int(10) UNSIGNED NOT NULL,
   `title` varchar(15) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '字典名称',
   `name` varchar(15) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '字典标识名',
@@ -134,7 +134,7 @@ CREATE TABLE `dictionary` (
 -- 转存表中的数据 `dictionary`
 --
 
-INSERT INTO `dictionary` (`id`, `title`, `name`, `describe`, `value`, `created_at`, `updated_at`) VALUES
+INSERT INTO `app_dictionary` (`id`, `title`, `name`, `describe`, `value`, `created_at`, `updated_at`) VALUES
 (1, '系统配置组', 'config_group', '', '{\"website\":\"\\u7ad9\\u70b9\\u8bbe\\u7f6e\"}', '2020-03-16 03:29:07', '2020-03-16 03:29:07');
 
 -- --------------------------------------------------------
@@ -143,7 +143,7 @@ INSERT INTO `dictionary` (`id`, `title`, `name`, `describe`, `value`, `created_a
 -- 表的结构 `model_has_permissions`
 --
 
-CREATE TABLE `model_has_permissions` (
+CREATE TABLE `app_model_has_permissions` (
   `permission_id` bigint(20) UNSIGNED NOT NULL,
   `model_type` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `model_id` bigint(20) UNSIGNED NOT NULL
@@ -155,7 +155,7 @@ CREATE TABLE `model_has_permissions` (
 -- 表的结构 `model_has_roles`
 --
 
-CREATE TABLE `model_has_roles` (
+CREATE TABLE `app_model_has_roles` (
   `role_id` bigint(20) UNSIGNED NOT NULL,
   `model_type` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `model_id` bigint(20) UNSIGNED NOT NULL
@@ -165,8 +165,8 @@ CREATE TABLE `model_has_roles` (
 -- 转存表中的数据 `model_has_roles`
 --
 
-INSERT INTO `model_has_roles` (`role_id`, `model_type`, `model_id`) VALUES
-(1, 'Jmhc\\Admin\\Models\\Auth\\AdminUser', 1);
+INSERT INTO `app_model_has_roles` (`role_id`, `model_type`, `model_id`) VALUES
+(1, 'Cameron\\Admin\\Models\\Auth\\AdminUser', 1);
 
 -- --------------------------------------------------------
 
@@ -174,7 +174,7 @@ INSERT INTO `model_has_roles` (`role_id`, `model_type`, `model_id`) VALUES
 -- 表的结构 `permissions`
 --
 
-CREATE TABLE `permissions` (
+CREATE TABLE `app_permissions` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `title` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '权限标题',
   `icon` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '' COMMENT 'icon',
@@ -196,7 +196,7 @@ CREATE TABLE `permissions` (
 -- 转存表中的数据 `permissions`
 --
 
-INSERT INTO `permissions` (`id`, `title`, `icon`, `pid`, `name`, `component_path`, `view_route_name`, `view_route_path`, `redirect_path`, `guard_name`, `is_menu`, `is_hidden`, `weigh`, `created_at`, `updated_at`) VALUES
+INSERT INTO `app_permissions` (`id`, `title`, `icon`, `pid`, `name`, `component_path`, `view_route_name`, `view_route_path`, `redirect_path`, `guard_name`, `is_menu`, `is_hidden`, `weigh`, `created_at`, `updated_at`) VALUES
 (1, '控制面板', 'dashboard', 0, 'dashboard', '', '', '/', '/dashboard', 'admin', 1, 0, 1000, '2019-09-29 00:57:13', '2020-03-18 09:44:02'),
 (16, '系统管理', 'system', 0, 'system', '', '', '/system', '', 'admin', 1, 0, 100, '2020-03-20 09:20:57', '2020-03-20 09:20:57'),
 (18, '字典设置', 'dictionary', 16, 'dictionary', '/system/dictionary', 'Dictionary', 'dictionary', '', 'admin', 1, 0, 18, '2020-03-19 09:43:56', '2020-03-19 09:43:56'),
@@ -277,7 +277,7 @@ INSERT INTO `permissions` (`id`, `title`, `icon`, `pid`, `name`, `component_path
 -- 表的结构 `roles`
 --
 
-CREATE TABLE `roles` (
+CREATE TABLE `app_roles` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `parent_id` bigint(20) NOT NULL DEFAULT '0' COMMENT '父级id',
   `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
@@ -290,7 +290,7 @@ CREATE TABLE `roles` (
 -- 转存表中的数据 `roles`
 --
 
-INSERT INTO `roles` (`id`, `parent_id`, `name`, `guard_name`, `created_at`, `updated_at`) VALUES
+INSERT INTO `app_roles` (`id`, `parent_id`, `name`, `guard_name`, `created_at`, `updated_at`) VALUES
 (1, 0, 'admin', 'admin', '2021-01-07 02:43:09', '2021-01-07 02:43:09');
 
 -- --------------------------------------------------------
@@ -299,7 +299,7 @@ INSERT INTO `roles` (`id`, `parent_id`, `name`, `guard_name`, `created_at`, `upd
 -- 表的结构 `role_has_permissions`
 --
 
-CREATE TABLE `role_has_permissions` (
+CREATE TABLE `app_role_has_permissions` (
   `permission_id` bigint(20) UNSIGNED NOT NULL,
   `role_id` bigint(20) UNSIGNED NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -311,73 +311,73 @@ CREATE TABLE `role_has_permissions` (
 --
 -- 表的索引 `admin_log`
 --
-ALTER TABLE `admin_log`
+ALTER TABLE `app_admin_log`
   ADD PRIMARY KEY (`id`);
 
 --
 -- 表的索引 `admin_users`
 --
-ALTER TABLE `admin_users`
+ALTER TABLE `app_admin_users`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `jm_admin_users_username_unique` (`username`);
 
 --
 -- 表的索引 `albums`
 --
-ALTER TABLE `albums`
+ALTER TABLE `app_albums`
   ADD PRIMARY KEY (`id`);
 
 --
 -- 表的索引 `attachments`
 --
-ALTER TABLE `attachments`
+ALTER TABLE `app_attachments`
   ADD PRIMARY KEY (`id`),
   ADD KEY `album_id` (`album_id`);
 
 --
 -- 表的索引 `configs`
 --
-ALTER TABLE `configs`
+ALTER TABLE `app_configs`
   ADD PRIMARY KEY (`id`),
   ADD KEY `group` (`group`);
 
 --
 -- 表的索引 `dictionary`
 --
-ALTER TABLE `dictionary`
+ALTER TABLE `app_dictionary`
   ADD PRIMARY KEY (`id`);
 
 --
 -- 表的索引 `model_has_permissions`
 --
-ALTER TABLE `model_has_permissions`
+ALTER TABLE `app_model_has_permissions`
   ADD PRIMARY KEY (`permission_id`,`model_id`,`model_type`),
   ADD KEY `model_has_permissions_model_id_model_type_index` (`model_id`,`model_type`);
 
 --
 -- 表的索引 `model_has_roles`
 --
-ALTER TABLE `model_has_roles`
+ALTER TABLE `app_model_has_roles`
   ADD PRIMARY KEY (`role_id`,`model_id`,`model_type`),
   ADD KEY `model_has_roles_model_id_model_type_index` (`model_id`,`model_type`);
 
 --
 -- 表的索引 `permissions`
 --
-ALTER TABLE `permissions`
+ALTER TABLE `app_permissions`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `name` (`guard_name`,`name`) USING BTREE;
 
 --
 -- 表的索引 `roles`
 --
-ALTER TABLE `roles`
+ALTER TABLE `app_roles`
   ADD PRIMARY KEY (`id`);
 
 --
 -- 表的索引 `role_has_permissions`
 --
-ALTER TABLE `role_has_permissions`
+ALTER TABLE `app_role_has_permissions`
   ADD PRIMARY KEY (`permission_id`,`role_id`),
   ADD KEY `role_has_permissions_role_id_foreign` (`role_id`);
 
@@ -388,49 +388,49 @@ ALTER TABLE `role_has_permissions`
 --
 -- 使用表AUTO_INCREMENT `admin_log`
 --
-ALTER TABLE `admin_log`
+ALTER TABLE `app_admin_log`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- 使用表AUTO_INCREMENT `admin_users`
 --
-ALTER TABLE `admin_users`
+ALTER TABLE `app_dmin_users`
   MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- 使用表AUTO_INCREMENT `albums`
 --
-ALTER TABLE `albums`
+ALTER TABLE `app_albums`
   MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- 使用表AUTO_INCREMENT `attachments`
 --
-ALTER TABLE `attachments`
+ALTER TABLE `app_attachments`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- 使用表AUTO_INCREMENT `configs`
 --
-ALTER TABLE `configs`
+ALTER TABLE `app_configs`
   MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- 使用表AUTO_INCREMENT `dictionary`
 --
-ALTER TABLE `dictionary`
+ALTER TABLE `app_dictionary`
   MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- 使用表AUTO_INCREMENT `permissions`
 --
-ALTER TABLE `permissions`
+ALTER TABLE `app_permissions`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=101;
 
 --
 -- 使用表AUTO_INCREMENT `roles`
 --
-ALTER TABLE `roles`
+ALTER TABLE `app_roles`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
@@ -440,19 +440,19 @@ ALTER TABLE `roles`
 --
 -- 限制表 `model_has_permissions`
 --
-ALTER TABLE `model_has_permissions`
+ALTER TABLE `app_model_has_permissions`
   ADD CONSTRAINT `model_has_permissions_permission_id_foreign` FOREIGN KEY (`permission_id`) REFERENCES `permissions` (`id`) ON DELETE CASCADE;
 
 --
 -- 限制表 `model_has_roles`
 --
-ALTER TABLE `model_has_roles`
+ALTER TABLE `app_model_has_roles`
   ADD CONSTRAINT `model_has_roles_role_id_foreign` FOREIGN KEY (`role_id`) REFERENCES `roles` (`id`) ON DELETE CASCADE;
 
 --
 -- 限制表 `role_has_permissions`
 --
-ALTER TABLE `role_has_permissions`
+ALTER TABLE `app_role_has_permissions`
   ADD CONSTRAINT `role_has_permissions_permission_id_foreign` FOREIGN KEY (`permission_id`) REFERENCES `permissions` (`id`) ON DELETE CASCADE,
   ADD CONSTRAINT `role_has_permissions_role_id_foreign` FOREIGN KEY (`role_id`) REFERENCES `roles` (`id`) ON DELETE CASCADE;
 COMMIT;

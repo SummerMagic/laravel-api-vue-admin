@@ -1,12 +1,12 @@
 <?php
 
 
-namespace Jmhc\Admin\Controllers\System;
+namespace Cameron\Admin\Controllers\System;
 
 
 use Illuminate\Routing\Controller;
-use Jmhc\Admin\Contracts\Service;
-use Jmhc\Admin\Traits\HasResourceRoutes;
+use Cameron\Admin\Contracts\Service;
+use Cameron\Admin\Traits\HasResourceRoutes;
 
 class DictionaryController extends Controller
 {

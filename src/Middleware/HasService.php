@@ -1,9 +1,9 @@
 <?php
 
-namespace Jmhc\Admin\Middleware;
+namespace Cameron\Admin\Middleware;
 
 use Illuminate\Support\Facades\Route;
-use Jmhc\Admin\Factories\ServiceBindFactory;
+use Cameron\Admin\Factories\ServiceBindFactory;
 use Closure;
 
 class HasService

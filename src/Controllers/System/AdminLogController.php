@@ -1,10 +1,10 @@
 <?php
 
 
-namespace Jmhc\Admin\Controllers\System;
+namespace Cameron\Admin\Controllers\System;
 
 use Illuminate\Routing\Controller;
-use Jmhc\Admin\Traits\HasResourceRoutes;
+use Cameron\Admin\Traits\HasResourceRoutes;
 
 class AdminLogController extends Controller
 {

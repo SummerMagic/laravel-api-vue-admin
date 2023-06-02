@@ -1,7 +1,7 @@
 <?php
 
 
-Route::prefix('admin')->namespace('Jmhc\Admin\Controllers')->middleware('api')->group(function () {
+Route::prefix('admin')->namespace('Cameron\Admin\Controllers')->middleware('api')->group(function () {
     // 用户认证
     Route::post('login', 'Auth\AuthController@login');
     Route::post('logout', 'Auth\AuthController@logout');

@@ -1,11 +1,11 @@
 <?php
 
 
-namespace Jmhc\Admin\Factories;
+namespace Cameron\Admin\Factories;
 
 use Illuminate\Support\Facades\Route;
-use Jmhc\Admin\Contracts\Repository;
-use Jmhc\Admin\Contracts\Service;
+use Cameron\Admin\Contracts\Repository;
+use Cameron\Admin\Contracts\Service;
 
 class ServiceBindFactory
 {
@@ -21,11 +21,11 @@ class ServiceBindFactory
     {
         $this->serviceName = $serviceName;
         $namespace = Route::current()->getAction('namespace');
-        if ($namespace === "Jmhc\\Admin\\Controllers") {
+        if ($namespace === "Cameron\\Admin\\Controllers") {
             config([
-                'admin.model_prefix' => "Jmhc\\Admin\\Models",
-                'admin.repository_prefix' => "Jmhc\\Admin\\Repositories",
-                'admin.service_prefix' => "Jmhc\\Admin\\Services",
+                'admin.model_prefix' => "Cameron\\Admin\\Models",
+                'admin.repository_prefix' => "Cameron\\Admin\\Repositories",
+                'admin.service_prefix' => "Cameron\\Admin\\Services",
             ]);
         }
         $this->buildClassName();

@@ -1,10 +1,10 @@
 <?php
 
 
-namespace Jmhc\Admin\Traits;
+namespace Cameron\Admin\Traits;
 
 
-use Jmhc\Admin\Utils\Helper;
+use Cameron\Admin\Utils\Helper;
 
 trait HasMultiEdit
 {

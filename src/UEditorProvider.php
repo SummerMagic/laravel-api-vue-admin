@@ -1,8 +1,8 @@
 <?php
 
-namespace Jmhc\Admin;
+namespace Cameron\Admin;
 
-use Jmhc\Admin\UEditor\UEditor;
+use Cameron\Admin\UEditor\UEditor;
 use Illuminate\Contracts\Support\DeferrableProvider;
 use Illuminate\Support\ServiceProvider;
 

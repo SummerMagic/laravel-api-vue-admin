@@ -1,12 +1,12 @@
 <?php
 
 
-namespace Jmhc\Admin\Services\System;
+namespace Cameron\Admin\Services\System;
 
 
-use Jmhc\Admin\Service;
-use Jmhc\Admin\Traits\HasMultiDestroy;
-use Jmhc\Admin\Traits\HasMultiEdit;
+use Cameron\Admin\Service;
+use Cameron\Admin\Traits\HasMultiDestroy;
+use Cameron\Admin\Traits\HasMultiEdit;
 
 class AttachmentService extends Service
 {

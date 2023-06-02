@@ -1,10 +1,10 @@
 <?php
 
 
-namespace Jmhc\Admin\Controllers;
+namespace Cameron\Admin\Controllers;
 
 
-use Jmhc\Admin\Traits\HasResourceRoutes;
+use Cameron\Admin\Traits\HasResourceRoutes;
 
 class TestController
 {

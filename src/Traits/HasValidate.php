@@ -1,7 +1,7 @@
 <?php
 
 
-namespace Jmhc\Admin\Traits;
+namespace Cameron\Admin\Traits;
 
 
 use Illuminate\Support\Facades\Validator;

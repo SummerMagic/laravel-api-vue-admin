@@ -1,8 +1,8 @@
 <?php
 
-namespace Jmhc\Admin\Models\Auth;
+namespace Cameron\Admin\Models\Auth;
 
-use Jmhc\Admin\Traits\SerializeDate;
+use Cameron\Admin\Traits\SerializeDate;
 use Spatie\Permission\Traits\HasRoles;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 use Illuminate\Support\Facades\Hash;

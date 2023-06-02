@@ -1,12 +1,12 @@
 <?php
 
-namespace Jmhc\Admin\Commands;
+namespace Cameron\Admin\Commands;
 
 use Illuminate\Console\Command;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
-use Jmhc\Admin\Utils\Helper;
+use Cameron\Admin\Utils\Helper;
 
 class ServiceCommand extends Command
 {

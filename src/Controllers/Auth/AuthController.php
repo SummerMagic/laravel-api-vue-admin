@@ -1,12 +1,12 @@
 <?php
 
 
-namespace Jmhc\Admin\Controllers\Auth;
+namespace Cameron\Admin\Controllers\Auth;
 
 use Illuminate\Contracts\Routing\ResponseFactory;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Routing\Controller;
-use Jmhc\Admin\Services\Auth\AdminUserService;
+use Cameron\Admin\Services\Auth\AdminUserService;
 
 class AuthController extends Controller
 {

@@ -1,12 +1,12 @@
 <?php
 
 
-namespace Jmhc\Admin;
+namespace Cameron\Admin;
 
 
 use Illuminate\Support\Str;
-use Jmhc\Admin\Contracts\Repository as RepositoryInterface;
-use Jmhc\Admin\Factories\ServiceBindFactory;
+use Cameron\Admin\Contracts\Repository as RepositoryInterface;
+use Cameron\Admin\Factories\ServiceBindFactory;
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -22,8 +22,8 @@ abstract class Repository implements RepositoryInterface
      */
     protected $model;
     protected $allowFields = ['*'];
-    protected $orderField  = 'created_at';
-    protected $orderType   = 'desc';
+    protected $orderField = 'created_at';
+    protected $orderType = 'desc';
 
     protected $defaultSelectFields = ['id', 'name'];
 
@@ -50,7 +50,7 @@ abstract class Repository implements RepositoryInterface
             foreach ($relationFilters as $relationName => $filter) {
                 $relationWhere = $this->buildWhereByParams($filter, $relationOperate[$relationName]);
                 if ($relationWhere) {
-                    $this->model = $this->model->whereHas($relationName, function($query) use($relationWhere) {
+                    $this->model = $this->model->whereHas($relationName, function ($query) use ($relationWhere) {
                         $query->where($relationWhere);
                     });
                 }
@@ -76,7 +76,7 @@ abstract class Repository implements RepositoryInterface
     /**
      * 选择列表
      *
-     * @param array $fields
+     * @param  array  $fields
      * @return mixed
      */
     public function selectList(array $fields = [], array $where = [])
@@ -85,7 +85,7 @@ abstract class Repository implements RepositoryInterface
             $fields = $this->defaultSelectFields;
         }
         return $this->model->select($fields)
-            ->when($where, function($query, $where){
+            ->when($where, function ($query, $where) {
                 return $query->where($where);
             })
             ->when($this->orderField, function ($query, $orderField) {
@@ -106,14 +106,14 @@ abstract class Repository implements RepositoryInterface
     /**
      * 更新
      *
-     * @param int $id
-     * @param array $data
+     * @param  int    $id
+     * @param  array  $data
      * @return mixed
      */
     public function update(int $id, array $data)
     {
         $row = $this->model->find($id);
-        if (!$row) {
+        if ( ! $row) {
             return false;
         }
         return $row->fill($data)->save();
@@ -152,7 +152,7 @@ abstract class Repository implements RepositoryInterface
 
     /**
      * 批量删除
-     * @param array $ids
+     * @param  array  $ids
      * @return int
      */
     public function multiDestroy(array $ids)
@@ -174,7 +174,7 @@ abstract class Repository implements RepositoryInterface
 
     /**
      * 解析参数
-     * @param array $params
+     * @param  array  $params
      * @return mixed
      */
     protected function parseParams(array $params)
@@ -186,12 +186,12 @@ abstract class Repository implements RepositoryInterface
         }
         $normalFilters = $relationFilters = $normalOperate = $relationOperate = [];
         foreach ($filter as $field => $value) {
-            if (strpos($field, '.')){
+            if (strpos($field, '.')) {
                 $fieldArr = explode('.', $field);
                 $name = array_pop($fieldArr);
                 $relationName = join('.', $fieldArr);
                 $relationName = Str::camel($relationName);
-                if (!isset($relationName, $relationFilters)) {
+                if ( ! isset($relationName, $relationFilters)) {
                     $relationFilters[$relationName] = [$name => $value];
                     $relationOperate[$relationName] = [$name => isset($operate[$field]) ? $operate[$field] : '='];
                 } else {
@@ -214,14 +214,14 @@ abstract class Repository implements RepositoryInterface
      */
     protected function buildWhereByParams($filter, $operate)
     {
-        $where = function($query) use ($filter, $operate) {
+        $where = function ($query) use ($filter, $operate) {
             foreach ($filter as $k => $v) {
                 $op = isset($operate[$k]) ? $operate[$k] : '=';
-                $v = !is_array($v) ? trim($v) : $v;
+                $v = ! is_array($v) ? trim($v) : $v;
                 if ($v === '') {
                     continue;
                 }
-                switch($op) {
+                switch ($op) {
                     case '=':
                     case '<>':
                         $query->where($k, $op, (string)$v);
@@ -288,7 +288,7 @@ abstract class Repository implements RepositoryInterface
                         if (empty($val)) {
                             break;
                         }
-                        $rangeArr = array_map(function($item){
+                        $rangeArr = array_map(function ($item) {
                             return strtotime(trim($item));
                         }, $val);
                         if (count($rangeArr) !== 2) {
@@ -297,7 +297,7 @@ abstract class Repository implements RepositoryInterface
                         if ($rangeArr[0] === $rangeArr[1]) {
                             $rangeArr[1] = $rangeArr[0] + 86400;
                         }
-                        $rangeArr = array_map(function($item){
+                        $rangeArr = array_map(function ($item) {
                             return date('Y-m-d H:i:s', $item);
                         }, $rangeArr);
                         $op === 'range' ?
@@ -316,7 +316,6 @@ abstract class Repository implements RepositoryInterface
             return $query;
         };
         return $where;
-
     }
 
     /**
@@ -345,7 +344,7 @@ abstract class Repository implements RepositoryInterface
 
     /**
      * 实例化服务类
-     * @return \Jmhc\Admin\Contracts\Repository|static::class
+     * @return \Cameron\Admin\Contracts\Repository|static::class
      * @throws \Illuminate\Contracts\Container\BindingResolutionException
      */
     public static function instance()

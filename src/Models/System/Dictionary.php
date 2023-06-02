@@ -1,15 +1,15 @@
 <?php
 
-namespace Jmhc\Admin\Models\System;
+namespace Cameron\Admin\Models\System;
 
 use Illuminate\Database\Eloquent\Model;
-use Jmhc\Admin\Traits\SerializeDate;
+use Cameron\Admin\Traits\SerializeDate;
 
 class Dictionary extends Model
 {
     use SerializeDate;
 
-    protected $table = 'dictionary';
+    protected $table = 'app_dictionary';
     protected $guarded = [];
 
     protected $casts = [

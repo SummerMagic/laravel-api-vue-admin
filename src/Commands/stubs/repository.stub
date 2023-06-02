@@ -2,7 +2,7 @@
 
 namespace {%namespace%};
 
-use Jmhc\Admin\Repository;
+use Cameron\Admin\Repository;
 
 class {%name%}Repository extends Repository
 {

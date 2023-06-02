@@ -1,10 +1,10 @@
 <?php
 
 
-namespace Jmhc\Admin\Commands;
+namespace Cameron\Admin\Commands;
 
 use Illuminate\Filesystem\Filesystem;
-use Jmhc\Admin\Utils\Helper;
+use Cameron\Admin\Utils\Helper;
 
 class CreatePage
 {

@@ -1,9 +1,9 @@
 <?php
 
 
-namespace Jmhc\Admin\Services\System;
+namespace Cameron\Admin\Services\System;
 
-use Jmhc\Admin\Service;
+use Cameron\Admin\Service;
 
 class ConfigService extends Service
 {
@@ -14,14 +14,14 @@ class ConfigService extends Service
     protected function rules(array $data, $id): array
     {
         return [
-            'group' => 'bail|required|max:25',
-            'title' => 'bail|required|max:50',
-            'name' => 'bail|required|max:50',
-            'type' => 'bail|required|in:string,text,number,editor,switch,image,images',
-            'tips' => 'max:255',
-            'value' => 'max:65535',
+            'group'  => 'bail|required|max:25',
+            'title'  => 'bail|required|max:50',
+            'name'   => 'bail|required|max:50',
+            'type'   => 'bail|required|in:string,text,number,editor,switch,image,images',
+            'tips'   => 'max:255',
+            'value'  => 'max:65535',
             'extend' => 'max:255',
-            'rule' => 'max:255',
+            'rule'   => 'max:255',
         ];
     }
 
@@ -29,17 +29,17 @@ class ConfigService extends Service
     {
         return [
             'group.required' => '配置组不能为空',
-            'group.max' => '配置组不能超过25个字符',
+            'group.max'      => '配置组不能超过25个字符',
             'title.required' => '配置名称不能为空',
-            'title.max' => '配置名称不能超过50个字符',
-            'name.required' => '标识符不能为空',
-            'name.max' => '标识符不能超过50个字符',
-            'type.required' => '配置类型不能为空',
-            'type.in' => '配置类型只能为字符串,文本,数字,编辑器,开关,图片',
-            'tips.max' => '提示不能超过255个字符',
-            'value.max' => '配置值不能超过65535个字符',
-            'extend.max' => '扩展数据不能超过255个字符',
-            'rule.max' => '验证规则不能超过255个字符',
+            'title.max'      => '配置名称不能超过50个字符',
+            'name.required'  => '标识符不能为空',
+            'name.max'       => '标识符不能超过50个字符',
+            'type.required'  => '配置类型不能为空',
+            'type.in'        => '配置类型只能为字符串,文本,数字,编辑器,开关,图片',
+            'tips.max'       => '提示不能超过255个字符',
+            'value.max'      => '配置值不能超过65535个字符',
+            'extend.max'     => '扩展数据不能超过255个字符',
+            'rule.max'       => '验证规则不能超过255个字符',
         ];
     }
 
@@ -52,7 +52,7 @@ class ConfigService extends Service
             $config['value'] = $config['type'] === 'images'
                 ? json_decode($config['value'], true)
                 : $config['value'];
-            if (!isset($regroupConfigs[$config['group']])) {
+            if ( ! isset($regroupConfigs[$config['group']])) {
                 $regroupConfigs[$config['group']] = [$config];
             } else {
                 $regroupConfigs[$config['group']][] = $config;
@@ -68,7 +68,7 @@ class ConfigService extends Service
     public function store()
     {
         $formData = $this->request->all();
-        if (!$this->validate($formData)) {
+        if ( ! $this->validate($formData)) {
             return $this->response->error($this->errorMsg);
         }
         $exists = $this->repository
@@ -97,7 +97,7 @@ class ConfigService extends Service
     public function updateGroup()
     {
         $group = $this->request->input('group');
-        if (!$group) {
+        if ( ! $group) {
             return $this->response->error('组名不能为空');
         }
         $formData = $this->request->input('rows');
@@ -129,7 +129,7 @@ class ConfigService extends Service
 
     /**
      * 获取组配置
-     * @param string $groupName
+     * @param  string  $groupName
      * @return mixed
      */
     public function getGroupConfig(string $groupName)
@@ -141,7 +141,7 @@ class ConfigService extends Service
 
     /**
      * 删除前置
-     * @param int $id
+     * @param  int  $id
      * @return bool
      */
     protected function beforeDestroy(int $id): bool
