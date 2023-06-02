@@ -49,7 +49,7 @@ class AdminServiceProvider extends ServiceProvider
 //        // 加载语言
 //        $this->loadTranslationsFrom(__DIR__ . '/../resources/lang', 'frey');
         // 加载路由
-        $this->loadRoutesFrom(__DIR__ . '/../routes/route.php');
+        $this->loadRoutesFrom(__DIR__ . '/../routes/admin/route.php');
 
         if ($this->app->runningInConsole()) {
             $this->publishResources(); // 发布静态资源
@@ -73,10 +73,10 @@ class AdminServiceProvider extends ServiceProvider
     protected function publishResources()
     {
         $this->publishes([
-            __DIR__ . '/../config/admin.php.stub'                => config_path('admin.php'),
+            __DIR__ . '/../config/admin.php.stub'                => config_path('admin/admin.php'),
             __DIR__ . '/../config/permission.php.stub'           => config_path('permission.php'),
             __DIR__ . '/../routes/RouteServiceProvider.php.stub' => app_path('Providers/RouteServiceProvider.php'),
-            __DIR__ . '/../routes/admin.php'                     => base_path('routes/admin.php'),
+            __DIR__ . '/../routes/admin.php'                     => base_path('routes/admin/admin.php'),
             __DIR__ . '/../resources/page'                       => resource_path('page'),
             __DIR__ . '/../resources/build'                      => base_path('build'),
             __DIR__ . '/../resources/plop-templates'             => resource_path('plop-templates'),
