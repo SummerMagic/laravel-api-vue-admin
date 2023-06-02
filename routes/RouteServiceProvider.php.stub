@@ -44,22 +44,77 @@ class RouteServiceProvider extends ServiceProvider
             return $registrar;
         });
 
-        $this->routes(function () {
-            Route::prefix('api')
-                ->middleware('api')
-                ->namespace($this->apiNamespace)
-                ->group(base_path('routes/api.php'));
+       $this->routes(function () {
+          //api
+          $this->mapApiRoutes();
+          //admin
+          $this->mapAdminRoutes();
+          //web
+          $this->mapWebRoutes();
+       });
+    }
 
-            Route::middleware('web')
-                ->namespace($this->namespace)
-                ->group(base_path('routes/web.php'));
+    /**
+     * @return void
+     */
+    protected function mapWebRoutes()
+    {
+        $webRoutes = Route::middleware('web')
+            ->namespace($this->namespace);
+        array_map(function ($file) use ($webRoutes) {
+            $webRoutes->group($file);
+        }, self::getFilesArray(base_path('routes/web')));
+    }
 
-            Route::prefix('admin')
-                ->middleware('api')
-                ->namespace($this->adminNamespace)
-                ->group(base_path('routes/admin.php'));
-        });
+    /**
+     * @return void
+     */
+    protected function mapApiRoutes()
+    {
+        $apiRoutes = Route::prefix('api')
+            ->middleware('api')
+            ->namespace($this->namespace);
+        array_map(function ($file) use ($apiRoutes) {
+            $apiRoutes->group($file);
+        }, self::getFilesArray(base_path('routes/api')));
+    }
 
+
+    /**
+     * @return void
+     */
+    protected function mapAdminRoutes()
+    {
+        $apiRoutes = Route::prefix('admin')
+            ->middleware('api')
+            ->namespace($this->adminNamespace);
+        array_map(function ($file) use ($apiRoutes) {
+            $apiRoutes->group($file);
+        }, self::getFilesArray(base_path('routes/admin')));
+    }
+
+    /**
+     * @param         $searchDir
+     * @param  array  $files
+     * @return array
+     */
+    private static function getFilesArray($searchDir, array &$files = []): array
+    {
+        $handle = opendir($searchDir);
+        while ($file = readdir($handle)) {
+            if ($file !== '..' && $file !== '.') {
+                $f = $searchDir . '/' . $file;
+                if (is_file($f)) {
+                    $extension = isset(pathinfo($file)['extension']) ? pathinfo($file)['extension'] : '';
+                    if ($extension === 'php' || $extension === 'PHP') {
+                        $files[] = $f;
+                    }
+                } else {
+                    self::getFilesArray($f, $files);
+                }
+            }
+        }
+        return $files;
     }
 
     /**

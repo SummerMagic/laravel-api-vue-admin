@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Support\Facades\Route;
 
 Route::prefix('admin')->namespace('Cameron\Admin\Controllers')->middleware('api')->group(function () {
     // 用户认证
@@ -12,7 +13,6 @@ Route::prefix('admin')->namespace('Cameron\Admin\Controllers')->middleware('api'
 
     // 需要验证权限的路由
     Route::middleware(['auth:admin', 'permission:admin'])->group(function () {
-
         // 更新个人信息
         Route::post('update-info', 'Auth\AuthController@updateInfo')->name('admin-users.update-self');
         //角色
@@ -28,11 +28,10 @@ Route::prefix('admin')->namespace('Cameron\Admin\Controllers')->middleware('api'
 
         //获取配置组
         Route::get('config-group', 'System\ConfigController@getConfigGroup')->name('config-group');
-
     });
 
     // 不需要验证权限的路由
-    Route::middleware(['auth:admin', 'service'])->group(function() {
+    Route::middleware(['auth:admin', 'service'])->group(function () {
         // 获取用户信息
         Route::get('user', 'Auth\AuthController@user');
         //上传
@@ -50,7 +49,7 @@ Route::prefix('admin')->namespace('Cameron\Admin\Controllers')->middleware('api'
     });
 
     // 需要验证权限且需要自动加载服务的路由
-    Route::middleware(['auth:admin', 'service', 'permission:admin'])->group(function() {
+    Route::middleware(['auth:admin', 'service', 'permission:admin'])->group(function () {
         //管理员
         Route::resource('admin-users', 'Auth\AdminUserController');
         Route::post('admin-users/multi', 'Auth\AdminUserController@multi')->name('admin-users.multi');
@@ -94,7 +93,6 @@ Route::prefix('admin')->namespace('Cameron\Admin\Controllers')->middleware('api'
         Route::post('admin-log/multi', 'System\AdminLogController@multi')->name('admin-log.multi');
         // AdminLog 批量删除
         Route::post('admin-log/multi-destroy', 'System\AdminLogController@multiDestroy')->name('admin-log.multiDestroy');
-
     });
 });
 

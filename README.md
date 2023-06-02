@@ -1,19 +1,13 @@
 ## Laravel-Vue-Admin
-![image](https://s1.ax1x.com/2020/06/29/NfET2j.png)
-Laravel-Vue-Admin主要优势在于前后端分离，具有一键生成功能，页面公共组件强大。后端接口逻辑部分，也就是Service通过Laravel容器进行管理，发挥出Laravel的优势。后端不必再做许多重复的工作，为喜欢Vue的后端php工程师提供便利。laravel-vue-admin参考了许多类似的项目，使用起来都很方便。例如Larave-Admin、FastAdmin，都能快速开发后台。而Laravel-vue-admin也主要是因我个人开发习惯才产生的想法。
-
-### Laravel-vue-Admin中项目文档
 * [vue-element-admin](https://panjiachen.github.io/vue-element-admin-site/zh/)
 * [jwt-auth](https://jwt-auth.readthedocs.io/en/develop/) 
 * [laravel-permission](https://docs.spatie.be/laravel-permission/v3/introduction/)
 * [Fractal](https://fractal.thephpleague.com/)
 
-### 码云仓库地址
-[gitee.com](https://gitee.com/jf_aa/laravel-vue-admin)
 
 ### 安装
 ```bash
-composer require frey/laravel-vue-admin
+composer require laravel-vue-admin
 ```
 ### 配置
 
